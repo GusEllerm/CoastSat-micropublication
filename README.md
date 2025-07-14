@@ -1,5 +1,3 @@
-
-
 # CoastSat Micropublication
 
 This project explores the integration of LivePublication micropublications with [CoastSat](https://github.com/UoA-eResearch/CoastSat). The goal is to generate procedural, data-driven micropublications for individual coastal transects and link them interactively to a map-based interface powered by `leaflet.glify`.
@@ -14,6 +12,7 @@ This project explores the integration of LivePublication micropublications with 
 ## Setup
 
 This repository uses Git submodules. To clone:
+
 ```bash
 git clone --recurse-submodules https://github.com/YOUR_USERNAME/CoastSat-micropublication.git
 ```
