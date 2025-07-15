@@ -1,2 +1,0 @@
-Example title Example Text test = "example_code"
-print(test) Example subsection Example inline variable dereference: test
