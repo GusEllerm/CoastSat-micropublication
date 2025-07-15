@@ -11,6 +11,7 @@ import os
 import io
 import re
 import shutil
+import hashlib
 
 def add_research_article(crate):
     main_article = crate.add(ContextEntity(crate, "#research-article", properties={
@@ -84,10 +85,12 @@ def add_dnf_engine_spec(crate):
     return stencila_spec
 
 def add_dnf_doc(crate):
+    sha256_hash = hashlib.sha256(open("micropublication.smd", "rb").read()).hexdigest() if os.path.exists("micropublication.smd") else ""
     dnf_file = crate.add_file("micropublication.smd", properties={
         "name": "DNF Document File",
         "description": "The unresolved dynamic narrative document serving as input to the DNF Engine.",
-        "encodingFormat": "application/smd"
+        "encodingFormat": "application/smd",
+        "sha256": sha256_hash
     })
     return dnf_file
 
