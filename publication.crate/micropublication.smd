@@ -1,3 +1,14 @@
+```{python exec}
+# This code makes the micropublication aware of its interface data.
+import pandas as pd
+import os
+# Load the interface data
+data_path = os.path.join(os.getcwl(), "data.csv")
+df = pd.read_csv(data_path) 
+```
+
+
+
 **Example Title**
 
 ```python exec

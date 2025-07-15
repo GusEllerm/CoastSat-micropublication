@@ -7,14 +7,14 @@
             "creator": {
                 "@id": "#creator"
             },
-            "datePublished": "2025-07-15T22:49:05+00:00",
+            "datePublished": "2025-07-15T23:08:45+00:00",
             "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
             "hasPart": [
                 {
                     "@id": "micropublication.smd"
                 },
                 {
-                    "@id": "interface.crate/"
+                    "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4"
                 }
             ],
             "mainEntity": {
@@ -46,7 +46,7 @@
             "description": "The unresolved dynamic narrative document serving as input to the DNF Engine.",
             "encodingFormat": "application/smd",
             "name": "DNF Document File",
-            "sha256": "b7115bbfd52fce466d0244bf482d9db5ad58d71eae3a9b39a18ea2aec52430f9"
+            "sha256": "75cb7f642343a67e1633a6ded13c62cdc6033d2c1b786b5de42c6e75bc9ae149"
         },
         {
             "@id": "#stencila",
@@ -73,7 +73,7 @@
             "url": "https://github.com/stencila/stencila/tree/v2.4.1/schema"
         },
         {
-            "@id": "interface.crate/",
+            "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4",
             "@type": [
                 "RO-Crate",
                 "Dataset"
@@ -91,7 +91,7 @@
                     "@id": "micropublication.smd"
                 },
                 {
-                    "@id": "interface.crate/"
+                    "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4"
                 },
                 {
                     "@id": "#stencila"
