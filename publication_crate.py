@@ -10,6 +10,7 @@ import zipfile
 import os
 import io
 import re
+import shutil
 
 def add_research_article(crate):
     main_article = crate.add(ContextEntity(crate, "#research-article", properties={
@@ -165,6 +166,10 @@ def create_publication_crate(crate_dir="publication.crate"):
     # Write to disk
     Path(crate_dir).mkdir(parents=True, exist_ok=True)
     crate.write(crate_dir)
+
+    # Clean up the downloaded interface.crate directory
+    if os.path.isdir("interface.crate"):
+        shutil.rmtree("interface.crate")
 
 if __name__ == "__main__":
     create_publication_crate()
