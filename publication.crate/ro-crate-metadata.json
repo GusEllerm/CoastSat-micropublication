@@ -7,14 +7,14 @@
             "creator": {
                 "@id": "#creator"
             },
-            "datePublished": "2025-07-15T23:08:45+00:00",
+            "datePublished": "2025-07-15T23:09:52+00:00",
             "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
             "hasPart": [
                 {
                     "@id": "micropublication.smd"
                 },
                 {
-                    "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4"
+                    "@id": "interface.crate/"
                 }
             ],
             "mainEntity": {
@@ -73,7 +73,7 @@
             "url": "https://github.com/stencila/stencila/tree/v2.4.1/schema"
         },
         {
-            "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4",
+            "@id": "interface.crate/",
             "@type": [
                 "RO-Crate",
                 "Dataset"
@@ -91,7 +91,7 @@
                     "@id": "micropublication.smd"
                 },
                 {
-                    "@id": "#686fbf68-77ad-407d-92ce-77dcc22ffeb4"
+                    "@id": "interface.crate/"
                 },
                 {
                     "@id": "#stencila"
