@@ -4,9 +4,9 @@ This project explores the integration of LivePublication micropublications with 
 
 ## Project Structure
 
-- `CoastSat/`: Submodule containing the original CoastSat repository.
+- `CoastSat/`: Submodule containing a fork of the [CoastSat](https://github.com/UoA-eResearch/CoastSat) repo, with a branch used for micropublication integration with its `leaflet.glify` map.
 - `interface.crate/`: Describes the computational processes and data used in the experiment (not yet populated).
-- `publication.crates/`: Will contain per-transect micropublications built using [Stencila](https://stenci.la/) and informed by `interface.crate`.
+- `publication.crate/`: Will contain per-transect micropublications built using [Stencila](https://stenci.la/) and informed by `interface.crate`.
 - `docs/`: Static site directory (to be used with GitHub Pages) for testing the interactive map interface.
 
 ## Setup
