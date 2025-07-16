@@ -161,6 +161,8 @@ if __name__ == "__main__":
     transect_feature = get_transect_by_id(data, args.transect_id)
     transect = transect_feature.get("properties", {})
 
+    print(transect)
+
     temp_dir_obj, temp_dir_path = prepare_temp_directory(template_path, data)
     micropub_path = evaluate_micropublication(temp_dir_path)
     if micropub_path:

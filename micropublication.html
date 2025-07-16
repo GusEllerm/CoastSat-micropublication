@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Untitled</title>
+    <meta property="og:type" content="Article" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="https://stencila.io/web/v2.4.1/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://stencila.io/web/v2.4.1/themes/default.css" />
+    <link rel="stylesheet" type="text/css" href="https://stencila.io/web/v2.4.1/views/dynamic.css" />
+    <script type="module" src="https://stencila.io/web/v2.4.1/views/dynamic.js">
+    </script>
+  </head>
+  <body>
+    <stencila-dynamic-view view="dynamic">
+      <stencila-article id=art_Il9UFTRlqME1VE5nylLlWtdV depth=0 ancestors='' execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473028 execution-duration=282 root>
+        <section slot=content>
+          <stencila-code-chunk id=cdc_GSoMMKj70RWlMfi9Tf2zNiaW depth=1 ancestors=Article code='# This code makes the micropublication aware of its interface data.
+from dataclasses import dataclass
+from typing import Optional
+from pathlib import Path
+import pandas as pd
+
+import os
+
+# Load the interface data
+data_path = os.path.join(Path.cwd(), "data.json")
+df = pd.read_json(data_path, typ=&#x27;series&#x27;)
+@dataclass
+class SiteData:
+  id: str
+  site_id: str
+  orientation: float
+  along_dist: float
+  along_dist_norm: float
+  beach_slope: float
+  cil: float
+  ciu: float
+  trend: float
+  n_points: float
+  n_points_nonan: float
+  r2_score: float
+  mae: float
+  mse: float
+  rmse: float
+  intercept: float
+  ERODIBILITY: Optional[float]
+
+# Convert the DataFrame row to a SiteData object
+site_data = SiteData(**df.to_dict())' programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473014 execution-duration=268>
+            <div slot=authors>
+              <stencila-author-role id=aut_rdGtJxvYVaoAQSl54LCDXLEf depth=2 ancestors=Article.CodeChunk role-name=Executor last-modified=1752640473025 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+              </stencila-author-role>
+            </div>
+          </stencila-code-chunk>
+          <stencila-paragraph id=pgh_Fv8BVHv9XDPAj3cM5q5WkhCG depth=1 ancestors=Article>
+            <p slot=content>
+              <stencila-strong id=stg_zPDuzsIuopULRVPQ5YgK2LMi depth=2 ancestors=Article.Paragraph>
+                <strong>
+                  <stencila-code-expression id=cde_1g0rtBHlTSeXEFLMN5ga9kik depth=3 ancestors=Article.Paragraph.Strong code=site_data.id programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473025 execution-duration=0>
+                    <span slot=authors>
+                      <stencila-author-role id=aut_I3DOjDePFzBsL3UQjykfbtBR depth=4 ancestors=Article.Paragraph.Strong.CodeExpression role-name=Executor last-modified=1752640473025 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                      </stencila-author-role>
+                    </span>
+                    <span slot=output>
+                      <stencila-string>aus0001-0000</stencila-string>
+                    </span>
+                  </stencila-code-expression>
+                </strong>
+              </stencila-strong>
+            </p>
+          </stencila-paragraph>
+          <stencila-list id=lst_MQDOeoFXaTlHjvnCMHS76ZmE depth=1 ancestors=Article order=Unordered>
+            <ul slot=items>
+              <stencila-list-item id=lsi_JeG1ycrQQ7nmilY8df9aVfVp depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_qDCZI5zszxrfKHQSbP1SxX2M depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_P3L7lCVI8NidVNKUT3N7oT5L depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.id programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473025 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_cur95mnPFdDbqfZ89hVjGjeP depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473025 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-string>aus0001-0000</stencila-string>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_iBOLkE4HgAEWPlRSXiq47Uxk depth=4 ancestors=Article.List.ListItem.Paragraph>is the unique identifier for the site.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_vQ8SY4z3kPZCGwbAyWhmR6Jw depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_uPBHGIhTqwlXbcD1sdGTO4iC depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_9lhIWKfCLlivMiCkF4wGtx0q depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.site_id programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473026 execution-duration=1>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_81sXeab98ErZnPcLuJmv6BhQ depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473026 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-string>aus0001</stencila-string>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_VgxW2eoswlhkBUIP9WNnd9Jr depth=4 ancestors=Article.List.ListItem.Paragraph>is the identifier for the site in the context of the micropublication.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_LB1A6yZExAcsGccRRPkNj62C depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_5F4jB4424XqcpIl3t6JwyoQ9 depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_JDIFC1bbof2YBPKaKSNqmbfU depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.orientation programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473027 execution-duration=1>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_DZv2IaL1VzNRxzpDvS0SmPHO depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473027 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>104.34764797878206</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_NZQZ52NmVlPsLBmPXn8OeDZU depth=4 ancestors=Article.List.ListItem.Paragraph>is the orientation of the site in degrees.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_OueL1orkfOGD04ve0Q3pzNUC depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_KvOW9CL74xwSrCFgbh5UHlzN depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_YxL3VPVHHRqy8T6WeekaOlsU depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.along_dist programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473027 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_FYtdYyBhCDc7bhuvLv4eMavm depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473027 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>0</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_DneoTbkTOcw0GE3q5q9Pb5h7 depth=4 ancestors=Article.List.ListItem.Paragraph>is the alongshore distance from a reference point.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_GOneUD4dyyMPMngl0ncmY0JU depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_HpthPO6bapmd6E1LtrWuU9bV depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_spTXjdp1LXoBAKLGfLCNhvf9 depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.along_dist_norm programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473027 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_TxgnwDv0EQ4gubA10xdDNnSi depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473027 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>0</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_b3Wv6rgJHrplIvBfY5TIuvgg depth=4 ancestors=Article.List.ListItem.Paragraph>is the normalized alongshore distance.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_S7hLNhmXdx6sjBO2Qix2TaQ8 depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_O7G0Mc19UtprJhPLxh7aWcRl depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_S1ezACNqXneTufJ9nwqJH6Fg depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.beach_slope programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473027 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_Rir52Kptiem5NZ6jHQ9CjAs1 depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473027 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>0.085</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_VSksotRUZgxFZWG4BhZPEtDh depth=4 ancestors=Article.List.ListItem.Paragraph>is the slope of the beach.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_Qwz3NHOJz6EBLXIwydQpIDGk depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_8OTkXRHThtLrL2qY4rzVdCWr depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_mZgnCTnqb3zeTSdASzY36YYT depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.cil programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473027 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_z824FpErVA5ytG1MLwHL9HGi depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473027 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>0.0545</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_9CCGj5joMv2T50nlN15ISCzU depth=4 ancestors=Article.List.ListItem.Paragraph>is the lower confidence interval for the trend.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_cCiOvvr9wmkBgB69SFFJK8i6 depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_8gR8tJHssMBbBUJPpojIPq7P depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_8cvbwsboDY3KEI2GYWcHjC3Q depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.ciu programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473028 execution-duration=1>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_jIbUYAlQqxW0k0BK98xyuNUC depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473028 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>0.2</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_GNlhun6wvw6VDrZp05WLpZKF depth=4 ancestors=Article.List.ListItem.Paragraph>is the upper confidence interval for the trend.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_kPebiroDfZrazTTS0QzhLtVl depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_2FovYycIVmIC0G0umJTCoSxZ depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_09ik17Cx5RXI20itF8ky5tGU depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.trend programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473028 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_qSNqt1Vqn3p8O2v2aTJ4khqA depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473028 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>-1.456304661836377</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_58d34JdE9LYdFf0LxAAwqN5A depth=4 ancestors=Article.List.ListItem.Paragraph>is the trend value for the site.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_kBFs2jXnNC1cH9njlTfIRLDZ depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_rKT49FwfmWK8CB1zZT0bQBJB depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_mbppbtZ7cSPpea5yWia8ZzXH depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.n_points programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473028 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_cQirohs8XIgf906uEC8MvXjc depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473028 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>654</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_G346dLJzjOPsD4RLEOsU9BSo depth=4 ancestors=Article.List.ListItem.Paragraph>is the total number of points used in the analysis.</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+              <stencila-list-item id=lsi_OsBWY18UcQ90V0PH7vCVU3Ud depth=2 ancestors=Article.List>
+                <li slot=content>
+                  <stencila-paragraph id=pgh_baxOVf8n4CfPXCgjg3eCIHMD depth=3 ancestors=Article.List.ListItem>
+                    <p slot=content>
+                      <stencila-code-expression id=cde_n4IOES7Fo6xYTqJCzuZi6DOx depth=4 ancestors=Article.List.ListItem.Paragraph code=site_data.n_points_nonan programming-language=python execution-count=1 execution-required=No execution-status=Succeeded execution-ended=1752640473028 execution-duration=0>
+                        <span slot=authors>
+                          <stencila-author-role id=aut_r1iQJqlGH8IbAdPDNzCQxZpo depth=5 ancestors=Article.List.ListItem.Paragraph.CodeExpression role-name=Executor last-modified=1752640473028 type=SoftwareApplication name=Python details='v3.13.2 /opt/miniconda3/bin/python3.13'>
+                          </stencila-author-role>
+                        </span>
+                        <span slot=output>
+                          <stencila-number>342</stencila-number>
+                        </span>
+                      </stencila-code-expression>
+                      <stencila-text id=txt_m3HCGZr4N5Uql22Cuh3eRRww depth=4 ancestors=Article.List.ListItem.Paragraph>is the number of points used in the analysis that</stencila-text>
+                    </p>
+                  </stencila-paragraph>
+                </li>
+              </stencila-list-item>
+            </ul>
+          </stencila-list>
+        </section>
+      </stencila-article>
+    </stencila-dynamic-view>
+  </body>
+</html>
