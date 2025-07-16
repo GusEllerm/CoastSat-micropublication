@@ -7,7 +7,7 @@
             "creator": {
                 "@id": "#creator"
             },
-            "datePublished": "2025-07-15T23:53:59+00:00",
+            "datePublished": "2025-07-16T00:54:18+00:00",
             "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
             "hasPart": [
                 {
@@ -39,7 +39,11 @@
         },
         {
             "@id": "micropublication.smd",
-            "@type": "File",
+            "@type": [
+                "File",
+                "SoftwareSourceCode",
+                "SoftwareApplication"
+            ],
             "conformsTo": {
                 "@id": "#stencila-schema"
             },
@@ -84,7 +88,10 @@
         },
         {
             "@id": "#dnf-evaluated-document",
-            "@type": "CreativeWork",
+            "@type": [
+                "CreativeWork",
+                "SoftwareSourceCode"
+            ],
             "description": "Headless publicatoion.crate; does not contain evaluated DNF document",
             "isBasedOn": [
                 {

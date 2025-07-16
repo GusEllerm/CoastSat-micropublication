@@ -14,7 +14,7 @@
       "creator": {
         "@id": "#creator"
       },
-      "datePublished": "2025-07-15T23:53:59+00:00",
+      "datePublished": "2025-07-16T00:54:18+00:00",
       "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
       "hasPart": [
         {
@@ -60,7 +60,11 @@
     },
     {
       "@id": "micropublication.smd",
-      "@type": "File",
+      "@type": [
+        "File",
+        "SoftwareSourceCode",
+        "SoftwareApplication"
+      ],
       "conformsTo": {
         "@id": "#stencila-schema"
       },
@@ -151,7 +155,10 @@
     },
     {
       "@id": "#dnf-evaluated-document",
-      "@type": "CreativeWork",
+      "@type": [
+        "CreativeWork",
+        "SoftwareSourceCode"
+      ],
       "description": "Headless publicatoion.crate; does not contain evaluated DNF document",
       "isBasedOn": [
         {
@@ -292,7 +299,7 @@ table.table {
             <td style='text-align:left'><span>This crate contains the interface.crate and a Stencila DNF document for generating micropublications.</span></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">datePublished<span>&nbsp;</span><a href="http://schema.org/datePublished">[?]</a></th>
-            <td style='text-align:left'><span>2025-07-15T23:53:59+00:00</span></td>
+            <td style='text-align:left'><span>2025-07-16T00:54:18+00:00</span></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">creator<span>&nbsp;</span><a href="http://schema.org/creator">[?]</a></th>
             <td style='text-align:left'><a href="#%23creator">Unknown Author</a></td>
@@ -359,7 +366,13 @@ table.table {
             <td style='text-align:left'><span>DNF Document File</span></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">@type</th>
-            <td style='text-align:left'><span>File</span></td>
+            <td style='text-align:left'><ul>
+                        <li><span>File</span></li>
+                        
+                        <li><span>SoftwareSourceCode</span></li>
+                        
+                        <li><span>SoftwareApplication</span></li>
+                        </ul></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">description<span>&nbsp;</span><a href="http://schema.org/description">[?]</a></th>
             <td style='text-align:left'><span>The unresolved dynamic narrative document serving as input to the DNF Engine.</span></td>
