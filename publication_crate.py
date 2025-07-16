@@ -26,7 +26,7 @@ def add_research_article(crate):
 
 def add_eval_dnf(crate):
     evaluated_document = crate.add(ContextEntity(crate, "#dnf-evaluated-document", properties={
-        "@type": "CreativeWork",
+        "@type": ["CreativeWork", "SoftwareSourceCode"],
         "name": "Evaluated DNF Document",
         "description": "Headless publicatoion.crate; does not contain evaluated DNF document"
     }))
@@ -87,6 +87,7 @@ def add_dnf_engine_spec(crate):
 def add_dnf_doc(crate):
     sha256_hash = hashlib.sha256(open("micropublication.smd", "rb").read()).hexdigest() if os.path.exists("micropublication.smd") else ""
     dnf_file = crate.add_file("micropublication.smd", properties={
+        "@type": ["File", "SoftwareSourceCode", "SoftwareApplication"],
         "name": "DNF Document File",
         "description": "The unresolved dynamic narrative document serving as input to the DNF Engine.",
         "encodingFormat": "application/smd",
@@ -97,7 +98,7 @@ def add_dnf_doc(crate):
 def add_dnf_deps(crate):
     repo_owner = "GusEllerm"
     repo_name = "CoastSat-interface.crate"
-    download_dir = "interface.crate"
+    download_dir = "publication.crate"
 
     api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
     headers = {"Accept": "application/vnd.github.v3+json"}
@@ -118,8 +119,7 @@ def add_dnf_deps(crate):
         zip_response.raise_for_status()
 
         with zipfile.ZipFile(io.BytesIO(zip_response.content)) as z:
-            z.extractall(download_dir)
-        print(f"✅ Extracted to {download_dir}")
+            z.extractall(download_dir)  # Extracts to current working directory  print(f"✅ Extracted to {download_dir}")
 
     except Exception as e:
         raise Exception(f"Failed to download and extract interface.crate: {e}")
@@ -127,7 +127,7 @@ def add_dnf_deps(crate):
     if not os.path.isdir(download_dir):
         raise Exception(f"{download_dir} directory is missing after extraction.")
 
-    nested = crate.add(Dataset(crate, os.path.basename(download_dir), properties={
+    nested = crate.add(Dataset(crate, download_dir + "/interface.crate/", properties={
         "name": "Interface Crate",
         "@type": ["RO-Crate", "Dataset"],
         "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
@@ -135,6 +135,16 @@ def add_dnf_deps(crate):
     }))
 
     return nested
+
+def add_micropublication_logic(crate):
+    logic_file = crate.add_file("micropublication_logic.py", properties={
+        "@type": ["File", "SoftwareSourceCode"],
+        "name": "Micropublication Logic",
+        "description": "Python logic for generating micropublications from the DNF document.",
+        "encodingFormat": "text/x-python",
+        "sha256": hashlib.sha256(open("micropublication_logic.py", "rb").read()).hexdigest()
+    })
+    return logic_file
 
 def create_publication_crate(crate_dir="publication.crate"):
     crate = ROCrate()
@@ -152,18 +162,19 @@ def create_publication_crate(crate_dir="publication.crate"):
     dnf_eval_doc = add_eval_dnf(crate)
     dnf_presentation_env = add_dnf_presentation(crate)
     research_article = add_research_article(crate)
+    micropublication_logic = add_micropublication_logic(crate)
 
     print(dnf_presentation_env)
 
     crate.mainEntity = research_article
     research_article["isBasedOn"] = [dnf_eval_doc, dnf_presentation_env]
+    research_article["wasGeneratedBy"] = [dnf_presentation_env, micropublication_logic]
 
     dnf_eval_doc["isBasedOn"] = [dnf_document, dnf_data_dependencies, dnf_engine]
     dnf_presentation_env["isBasedOn"] = [dnf_engine]
     dnf_engine["isBasedOn"] = [dnf_engine_spec]
 
     dnf_document["conformsTo"] = dnf_engine_spec
-    research_article["wasGeneratedBy"] = dnf_presentation_env
     dnf_document["conformsTo"] = dnf_engine_schema
 
     # Write to disk
