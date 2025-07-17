@@ -9,27 +9,35 @@ import requests
 import json
 import os
 
-def prepare_temp_directory(template_path, data_csv_path):
+def prepare_temp_directory(template_path):
     temp_dir = tempfile.TemporaryDirectory()
     temp_dir_path = Path(temp_dir.name)
 
     shutil.copy(template_path, temp_dir_path / "micropublication.smd")
+    
     # Write the in-memory transect dict to data.json in the temp directory
     data_json_path = temp_dir_path / "data.json"
     with open(data_json_path, "w", encoding="utf-8") as f:
         json.dump(transect, f, ensure_ascii=False, indent=2)
 
-    return temp_dir, temp_dir_path
+    # Add top-level ro-crate-metadata.json
+    crate_root = Path(__file__).parent
+    top_level_manifest = crate_root / "ro-crate-metadata.json"
+    if top_level_manifest.exists():
+        shutil.copy(top_level_manifest, temp_dir_path / "ro-crate-metadata.json")
 
-def run_stencila_pipeline(temp_dir_path):
-    result = subprocess.run(
-        ["stencila", "convert", "micropublication.smd", "micropublication.html"],
-        cwd=temp_dir_path,
-        capture_output=True
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"Stencila pipeline failed: {result.stderr.decode()}")
-    return temp_dir_path / "micropublication.html"
+    # Recursively find and copy all nested ro-crate-metadata.json files
+    for dirpath, dirnames, filenames in os.walk(crate_root):
+        if "ro-crate-metadata.json" in filenames:
+            full_manifest_path = Path(dirpath) / "ro-crate-metadata.json"
+            relative_manifest_path = full_manifest_path.relative_to(crate_root)
+            target_manifest_path = temp_dir_path / relative_manifest_path
+
+            # Ensure parent directories exist
+            target_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(full_manifest_path, target_manifest_path)
+
+    return temp_dir, temp_dir_path
 
 def evaluate_micropublication(temp_dir_path):
 
@@ -161,7 +169,7 @@ if __name__ == "__main__":
     transect_feature = get_transect_by_id(data, args.transect_id)
     transect = transect_feature.get("properties", {})
 
-    temp_dir_obj, temp_dir_path = prepare_temp_directory(template_path, data)
+    temp_dir_obj, temp_dir_path = prepare_temp_directory(template_path)
     micropub_path = evaluate_micropublication(temp_dir_path)
     if micropub_path:
         output_path = args.output if hasattr(args, "output") else "micropublication.html"
@@ -172,8 +180,3 @@ if __name__ == "__main__":
 
     temp_dir_obj.cleanup()  # Clean up the temporary directory
     print("Temporary directory cleaned up.")
-
-
-
-    
-

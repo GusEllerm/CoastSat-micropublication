@@ -103,7 +103,6 @@ def add_dnf_deps(crate):
     api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
     headers = {"Accept": "application/vnd.github.v3+json"}
     print("📦 Fetching latest interface.crate release...")
-
     
     try:
         response = requests.get(api_url, headers=headers)
