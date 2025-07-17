@@ -15,10 +15,15 @@ def prepare_temp_directory(template_path):
 
     shutil.copy(template_path, temp_dir_path / "micropublication.smd")
     
-    # Write the in-memory transect dict to data.json in the temp directory
+    # Write the transect dict to data.json in the temp directory
     data_json_path = temp_dir_path / "data.json"
     with open(data_json_path, "w", encoding="utf-8") as f:
         json.dump(transect, f, ensure_ascii=False, indent=2)
+
+    # Write the coordinates to coordinates.json in the temp directory
+    coordinates_json_path = temp_dir_path / "coordinates.json"
+    with open(coordinates_json_path, "w", encoding="utf-8") as f:
+        json.dump(coordinates, f, ensure_ascii=False, indent=2)
 
     # Add top-level ro-crate-metadata.json
     crate_root = Path(__file__).parent
@@ -168,6 +173,8 @@ if __name__ == "__main__":
     data = download_data_file(data_path)
     transect_feature = get_transect_by_id(data, args.transect_id)
     transect = transect_feature.get("properties", {})
+    coordinates = transect_feature.get("geometry")
+
 
     temp_dir_obj, temp_dir_path = prepare_temp_directory(template_path)
     micropub_path = evaluate_micropublication(temp_dir_path)

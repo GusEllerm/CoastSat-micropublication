@@ -3,9 +3,10 @@
 from dataclasses import dataclass
 from typing import Optional
 from pathlib import Path
-import pandas as pd
-import json
 
+import pandas as pd
+import requests
+import json
 import os
 
 # Load the transect data
@@ -32,6 +33,22 @@ class SiteData:
   ERODIBILITY: Optional[float]
 
 site_data = SiteData(**df.to_dict())
+
+# Load the coordinate data 
+coordinates_path = os.path.join(Path.cwd(), "coordinates.json")
+lon, lat = pd.read_json(coordinates_path, typ='series').to_dict()['coordinates'][0]
+# Reverse geocode coords to get location name
+location = requests.get(
+    url="https://nominatim.openstreetmap.org/reverse",
+    params={
+        'lat': lat,
+        'lon': lon,
+        'format': 'json',
+        'zoom': 10,
+        'addressdetails': 1
+    },
+    headers={'User-Agent': 'CoastSat-Micropublication'}
+).json().get('display_name')
 
 # Load the publication.crate RO-Crate metadata
 crate_metadata_path = Path.cwd() / "interface.crate" / "ro-crate-metadata.json"
@@ -65,8 +82,8 @@ else:
     is_nz_sar = False
 
 ```
-
-**`site_data.id`{python exec}**
+### `location`{python exec}
+#### `site_data.id`{python exec}
 
 - `site_data.id`{python exec} is the unique identifier for the site.
 - `site_data.site_id`{python exec} is the identifier for the site in the context of the micropublication.
@@ -93,4 +110,6 @@ The results shown for this transect are based on pre processed data form coastSa
 The results shown for this transect are based on an external dataset -- PacificRim Data. 
 
 :::
+
+`lon`{python exec} and `lat`{python exec} are the coordinates of the site.
 
