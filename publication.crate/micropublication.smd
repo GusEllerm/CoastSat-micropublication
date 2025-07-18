@@ -1,4 +1,4 @@
-```{python exec}
+```python exec
 # This code makes the micropublication aware of its interface data.
 from dataclasses import dataclass
 from typing import Optional
@@ -44,7 +44,8 @@ site_data = SiteData(**{k: round_if_number(v) for k, v in df.to_dict().items()})
 # Configuration Variables
 min_points_for_valid_regression = 10 # Minimum number of non-NaN points for the linear regression to be considered plausible
 trend_threshold = 0.01 # Threshold for trend value to be considered significant -- i.e. is the slope big enough to care about. 
-noise_threshold = round(2 * abs(site_data.trend) * np.sqrt(site_data.n_points_nonan), 3) # Even if the trend is big enough, is the signal drowned by noise?
+# Look into using the standard deviation of the trend values to set a noise threshold
+noise_threshold = float(round(2 * abs(site_data.trend) * np.sqrt(site_data.n_points_nonan), 3)) # Even if the trend is big enough, is the signal drowned by noise?
 weak_trend_threshold = 0.05 # Trends less than this are considered weak
 strong_trend_threshold = 0.2 # Trends greater than this are considered strong
 
@@ -108,11 +109,27 @@ The trend fit is not valid due to insufficient data points. The number of non-Na
 
 The regression line fits worse than a flat model; this is likely due to a lack of data or a poor fit to the data. The R² score is `site_data.r2_score`{python exec}, which indicates that the model does not explain the variability in the data well.
 
-::: elif (abs(site_data.trend) < trend_threshold) or (site_data.r2_score < 0.3) or (site_data.rmse > noise_threshold)
+::: elif (abs(site_data.trend) < trend_threshold) 
 
-The regression reveals either a negligible trend, a weak correlation, or excessive prediction error — suggesting that any apparent trend is unreliable or obscured by noise.
+The trend fit is not valid due to a trend value of `site_data.trend`{python exec} m/year, which is below the threshold of {trend_threshold} m/year.
 
-```{python exec}
+```python exec
+show_trend = True
+```
+
+::: elif (site_data.r2_score < 0.3)
+
+The regression line fits the data only moderately well, with an R² score of `site_data.r2_score`{python exec}. This suggests that the model explains some variability in the data, but the fit is not strong.
+
+```python exec
+show_trend = True
+```
+
+::: elif (site_data.rmse > noise_threshold)
+
+The trend fit is not valid because the root mean square error (RMSE) of `site_data.rmse`{python exec} is higher than the noise threshold of `noise_threshold`{python exec}, indicating that the variability in the data is high enough for the trend to be considered unreliable.
+
+```python exec
 show_trend = True
 ```
 
@@ -120,7 +137,7 @@ show_trend = True
 
 The trend fit is valid with a high R² score of `site_data.r2_score`{python exec}. This indicates that the linear regression model explains a large portion of the variability in the data, suggesting a strong trend.
 
-```{python exec}
+```python exec
 show_trend = True
 ```
 
@@ -128,7 +145,7 @@ show_trend = True
 
 The trend fit is valid with an excellent R² score of `site_data.r2_score`{python exec}. This indicates that the linear regression model explains almost all the variability in the data, suggesting a very strong trend.
 
-```{python exec}
+```python exec
 show_trend = True
 ```
 
@@ -196,11 +213,54 @@ The coast is accreting significantly, with a trend of **`site_data.trend`{python
 
 ## Provenance
 
+### Data Production
+
+```python exec
+target_types = {"SoftwareSourceCode", "HowTo", "File"} # The main workflow entity of the interface.crate
+matched_entity = None
+
+for entity in crate_metadata.get("@graph", []):
+    types = entity.get("@type")
+    if types:
+        if isinstance(types, list) and target_types.issubset(set(types)):
+            matched_entity = entity
+            break
+        elif isinstance(types, str) and types in target_types:
+            matched_entity = entity
+            break
+
+# Check that formal_param is represented within the entity's output field
+output_has_formal_param = False
+if matched_entity:
+    output_field = matched_entity.get("output")
+    if isinstance(output_field, list):
+        output_has_formal_param = any(
+            (isinstance(o, dict) and o.get("@id") == formal_param) or
+            (isinstance(o, str) and o == formal_param)
+            for o in output_field
+        )
+    elif isinstance(output_field, dict):
+        output_has_formal_param = output_field.get("@id") == formal_param
+    elif isinstance(output_field, str):
+        output_has_formal_param = output_field == formal_param
+
+# Return the entity and whether formal_param is present in output
+result = {
+    "entity": matched_entity,
+    "formal_param_in_output": output_has_formal_param
+}
+```
+
+The reults of this transect where derived from 
+
+
+### Data Source
+
 This transect data can be found `dict(type="Link", target=f"{result_file["@id"]}", content=[dict(type="Text", value=f"here")])`{python exec}.
 
 ::: if "nzd" in site_data.id or "sar" in site_data.id
 
-```{python exec}
+```python exec
 # Get provenance information for NZD/SAR datasets
 
 ```
@@ -209,7 +269,7 @@ The results shown for this transect are based on pre processed data form coastSa
 
 ::: else
 
-```{python exec}
+```python exec
 # Get provenance information for PacificRim Dataset
 ```
 
