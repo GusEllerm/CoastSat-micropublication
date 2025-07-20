@@ -7,7 +7,7 @@
             "creator": {
                 "@id": "#creator"
             },
-            "datePublished": "2025-07-18T01:02:37+00:00",
+            "datePublished": "2025-07-20T09:35:33+00:00",
             "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
             "hasPart": [
                 {
@@ -53,7 +53,7 @@
             "description": "The unresolved dynamic narrative document serving as input to the DNF Engine.",
             "encodingFormat": "application/smd",
             "name": "DNF Document File",
-            "sha256": "4092547f7d720085a1b3d570e8efff9870db74cb87ba44556e246352b030be54"
+            "sha256": "de8ab6966244282d8f008a4aa27b46aad52b24f9bb49724556bdb01b77ed3b89"
         },
         {
             "@id": "#stencila",
@@ -151,7 +151,7 @@
             "description": "Python logic for generating micropublications from the DNF document.",
             "encodingFormat": "text/x-python",
             "name": "Micropublication Logic",
-            "sha256": "a3dd1145a43c2630306db6df02070ddd7faf9a33f970c15dc2bb53c15ec5c86c"
+            "sha256": "da7d7e52a634c02d61d1805197064c30e537ba6c83044394272976803316d70b"
         }
     ]
 }
