@@ -296,12 +296,12 @@ The trend fit is valid with an excellent R² score of **`site_data.r2_score`{pyt
 
 ::::: if site_data.trend < 0
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to erode very slightly, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered negligible.
 
 ::::: else
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to accrete very slightly, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered negligible.
 
 :::::
@@ -310,12 +310,12 @@ The trend fit is valid with an excellent R² score of **`site_data.r2_score`{pyt
 
 ::::: if site_data.trend < 0
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to erode, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered weak.
 
 ::::: else
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to accrete, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered weak.
 
 :::::
@@ -324,12 +324,12 @@ The trend fit is valid with an excellent R² score of **`site_data.r2_score`{pyt
 
 ::::: if site_data.trend < 0
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to erode significantly, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered strong.
 
 ::::: else
 
-> [!tip]-
+> [!tip]- Prediction
 > The coast is predicted to accrete significantly, with a trend of **`site_data.trend`{python exec}** m/year. This trend is considered strong.
 
 :::::
