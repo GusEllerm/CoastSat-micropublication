@@ -387,9 +387,6 @@ current_timeserries_url = current_timeserries.get("@id")
 instrument_url = instrument.get("codeRepository")
 ```
 
-Data for this transect can be downloaded `dict(type="Link", target=per_site_data_url, content=[dict(type="Text", value=f"here")])`{python exec}, and linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
-The data used to inform the linear regression and trend analysis is drawn from a growing dataset, processed monthly. 
-
 :::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
@@ -420,7 +417,6 @@ This transect contains **`site_data.n_points`{python exec}** data points, with *
 :::
 
 ### Data Production
-
 
 This transect has been updated on `run_date`{python exec} during the current processing cycle, and was processed using the instrument `instrument_name`{python exec}.
 The graph below illustrates the data flow from the previous timeseries to the current timeseries, and provides links to (1) the previous and current timeseries data files, (2) the instrument used for processing, and (3) a link to a secondary publication.crate describing the CoastSat methodology.
