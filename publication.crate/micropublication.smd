@@ -281,11 +281,11 @@ show_trend = False
 > [!info]- The trend fit has a high R² score.
 > The trend fit is valid with a high R² score of **`site_data.r2_score`{python exec}**. This indicates that the linear regression model explains a large portion of the variability in the data, suggesting a strong trend.
 
-::: elif site_data.r2_score == one_r2_theshold
+::: elif site_data.r2_score <= one_r2_theshold
 
 > [!info]- The trend fit has an excellent R² score.
-> This indicates that the linear regression model explains all the variability in the data, suggesting a very strong trend.
-The trend fit is valid with an excellent R² score of **`site_data.r2_score`{python exec}**. This indicates that the linear regression model explains almost all the variability in the data, suggesting a very strong trend.
+> The trend fit is valid with an excellent R² score of **`site_data.r2_score`{python exec}**. This indicates that the linear regression model explains almost all the variability in the data, suggesting a very strong trend.
+
 
 :::
 
