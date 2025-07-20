@@ -571,10 +571,15 @@ pacific rim
 ```python exec
 interface_crate_version = interface_crate.mainEntity.get("url")
 coastsat_version = interface_crate.mainEntity.get("version")
+publication_crate_version = publication_crate.mainEntity.get("url")
 ```
 
 This micropublication is part of the CoastSat project, which aims to monitor coastal change using satellite imagery.
 It is based on `dict(type="Link", target=interface_crate_version, content=[dict(type="Text", value=f"this")])`{python exec} version of the _interface.crate_, and `dict(type="Link", target=coastsat_version, content=[dict(type="Text", value=f"this")])`{python exec} version of the CoastSat GitHub repository.
+
+> [!tip]- Micropublication publication.crate
+> This publication.crate is avaliable for download `dict(type="Link", target=publication_crate_version, content=[dict(type="Text", value=f"here")])`{python exec}.
+> It contains all data and resources required to reproduce the analysis and results presented in this micropublication.
 
 ### Threshold Values for Narrative Generation
 
