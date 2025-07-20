@@ -286,7 +286,6 @@ show_trend = False
 > [!info]- The trend fit has an excellent R² score.
 > The trend fit is valid with an excellent R² score of **`site_data.r2_score`{python exec}**. This indicates that the linear regression model explains almost all the variability in the data, suggesting a very strong trend.
 
-
 :::
 
 
@@ -387,13 +386,6 @@ current_timeserries_url = current_timeserries.get("@id")
 instrument_url = instrument.get("codeRepository")
 ```
 
-:::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
-
-Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
-The data for this transect has not changed since the last processing. The current version of the data is identical to the previous version.
-
-:::: else 
-
 ### Transect Data Characteristics
 
 ```python exec
@@ -415,6 +407,15 @@ Linear model results for all transects can be downloaded `dict(type="Link", targ
 This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}.
 
 :::
+
+:::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
+
+### Data Production
+
+Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
+The data for this transect has not changed since the last processing. The current version of the data is identical to the previous version.
+
+:::: else 
 
 ### Data Production
 
