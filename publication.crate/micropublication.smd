@@ -467,17 +467,28 @@ flowchart LR
 
 View, download, and comment on the batch process instrumentation `dict(type="Link", target=gist_link, content=[dict(type="Text", value=f"here")])`{python exec}.
 
+```python exec
+# Check that the new data is not empty
+df = get_appended_rows(previous_timeserries_url, current_timeserries_url, filter_column=site_data.id)
+df = df[["dates", site_data.id, "satname"]]
+df["dates"] = pd.to_datetime(df["dates"]).dt.strftime("%B %d, %Y")
+# Rename column to include units
+df = df.rename(columns={site_data.id: f"{site_data.id} (meters)"})
+```
+
+::::: if df.empty
+
+While the data for this transect was updated during the current processing cycle (`run_date`{python exec}), only empty rows were appended.
+
+::::: else
+
 > [!info]+ Data Appended to Transect
 > The table below shows the appended data for this transect, described by the processes within the Data-Preprocessing subgraph in Figure X.
 > ```python exec 
-> # Only return rows that have data for the transect 
-> df = get_appended_rows(previous_timeserries_url, current_timeserries_url, filter_column=site_data.id)
-> df = df[["dates", site_data.id, "satname"]]
-> df["dates"] = pd.to_datetime(df["dates"]).dt.strftime("%B %d, %Y")
-> # Rename column to include units
-> df = df.rename(columns={site_data.id: f"{site_data.id} (meters)"})
 > df
 > ```
+
+:::::
 
 ::::
 
@@ -581,18 +592,19 @@ flowchart LR
     click E href "{{ primary_result_url }}" _blank
 ```
 
+::::: if df.empty
+
+While the data for this transect was updated during the current processing cycle (`run_date`{python exec}), only empty rows were appended.
+
+::::: else
+
 > [!info]+ Data Appended to Transect
 > The table below shows the appended data for this transect, described by the processes within the Data-Preprocessing subgraph in Figure X.
 > ```python exec 
-> # Only return rows that have data for the transect 
-> df = get_appended_rows(previous_timeserries_url, current_timeserries_url, filter_column=site_data.id)
-> df = df[["dates", site_data.id, "satname"]]
-> df["dates"] = pd.to_datetime(df["dates"]).dt.strftime("%B %d, %Y")
-> # Rename column to include units
-> df = df.rename(columns={site_data.id: f"{site_data.id} (meters)"})
 > df
 > ```
 
+:::::
 
 ::::
 
