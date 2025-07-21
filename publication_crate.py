@@ -101,7 +101,17 @@ def add_dnf_deps(crate):
     download_dir = "publication.crate"
 
     api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
-    headers = {"Accept": "application/vnd.github.v3+json"}
+
+    token_path = Path("token.txt")
+    token = token_path.read_text().strip() if token_path.exists() else None
+
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "CoastSat-micropublication"
+    }
+    if token:
+        headers["Authorization"] = f"token {token}"
+
     print("📦 Fetching latest interface.crate release...")
     
     try:
@@ -114,7 +124,7 @@ def add_dnf_deps(crate):
             raise Exception("No zip asset found in the latest release.")
 
         print(f"⬇️ Downloading: {asset['name']}")
-        zip_response = requests.get(asset["browser_download_url"])
+        zip_response = requests.get(asset["browser_download_url"], headers=headers)
         zip_response.raise_for_status()
 
         with zipfile.ZipFile(io.BytesIO(zip_response.content)) as z:

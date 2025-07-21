@@ -288,7 +288,6 @@ show_trend = False
 
 :::
 
-
 ::: if show_trend
 
 :::: if abs(site_data.trend) < weak_trend_threshold
@@ -359,7 +358,7 @@ except Exception:
 
 ::: if "nzd" in site_data.id 
 
-```python exec
+```python exec 
 # For the growing NZ dataset, we want to link and compare the current version of the data with the previous version.
 # First, load the create_action which models the batch processing of NZ transects
 nz_create_action = batch_processes_crate.get("#batch-process-nz")
@@ -413,14 +412,38 @@ This transect contains **`site_data.n_points`{python exec}** data points, with *
 ### Data Production
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
-The data for this transect has not changed since the last processing. The current version of the data is identical to the previous version.
+The data for this transect was not updated during the current processing cycle (`run_date`{python exec}). The current version of the data is identical to the previous version.
+The graph below illustrates the data this transect was derived from, and provides links to (1) the input transect data, (2) the full transect regression data, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
+
+```mermaid exec
+flowchart LR
+
+    A[/"{{ previous_timeserries_name }}"/]
+
+    subgraph Analysis
+        D[/"Trend Analysis"/]
+    end
+
+    A --> Analysis
+
+    Analysis --> E[/"Transect Regression Data"/]
+
+    click A href "{{ current_timeserries_url }}" _blank
+    click E href "{{ primary_result_url }}" _blank
+```
 
 :::: else 
+
+```python exec
+# Grab the Gist link and JS to embed the batch process instrumentation
+gist_link = batch_processes_crate.get("#batch-process-nz-app")["associatedMedia"]
+gist_embed = batch_processes_crate.get("#batch-process-nz-app")["embedCode"]
+```
 
 ### Data Production
 
 This transect has been updated on `run_date`{python exec} during the current processing cycle, and was processed using the instrument `instrument_name`{python exec}.
-The graph below illustrates the data flow from the previous timeseries to the current timeseries, and provides links to (1) the previous and current timeseries data files, (2) the instrument used for processing, and (3) a link to a secondary publication.crate describing the CoastSat methodology.
+The graph below illustrates the data flow from the previous timeseries to the current timeseries, and provides links to (1) the previous and current timeseries data files, (2) the instrument used for processing, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
 
 ```mermaid exec
 flowchart LR
@@ -442,8 +465,7 @@ flowchart LR
     click E href "{{ primary_result_url }}" _blank
 ```
 
-> [!info]+ Batch Process Instrumentation
-> <div> <script src="https://gist.github.com/GusEllerm/b8c382728f321ae25c224a201bca476b.js"></script> </div>
+View, download, and comment on the batch process instrumentation `dict(type="Link", target=gist_link, content=[dict(type="Text", value=f"here")])`{python exec}.
 
 > [!info]+ Data Appended to Transect
 > The table below shows the appended data for this transect, described by the processes within the Data-Preprocessing subgraph in Figure X.
@@ -487,13 +509,6 @@ current_timeserries_url = current_timeserries.get("@id")
 instrument_url = instrument.get("codeRepository")
 ```
 
-:::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
-
-Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
-The data for this transect has not changed since the last processing. The current version of the data is identical to the previous version.
-
-:::: else 
-
 ### Transect Data Characteristics
 
 ```python exec
@@ -516,10 +531,35 @@ This transect contains **`site_data.n_points`{python exec}** data points, with *
 
 :::
 
+:::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
+
+Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
+The data for this transect was not updated during the current processing cycle (`date_str`{python exec}). The current version of the data is identical to the previous version.
+The graph below illustrates the data this transect was derived from, and provides links to (1) the input transect data, (2) the full transect regression data, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
+
+```mermaid exec
+flowchart LR
+
+    A[/"{{ previous_timeserries_name }}"/]
+
+    subgraph Analysis
+        D[/"Trend Analysis"/]
+    end
+
+    A --> Analysis
+
+    Analysis --> E[/"Transect Regression Data"/]
+
+    click A href "{{ current_timeserries_url }}" _blank
+    click E href "{{ primary_result_url }}" _blank
+```
+
+:::: else 
+
 ### Data Production
 
 This transect has been updated on `run_date`{python exec} during the current processing cycle, and was processed using the instrument `instrument_name`{python exec}.
-The graph below illustrates the data flow from the previous timeseries to the current timeseries, and provides links to (1) the previous and current timeseries data files, (2) the instrument used for processing, and (3) a link to a secondary publication.crate describing the CoastSat methodology.
+The graph below illustrates the data flow from the previous timeseries to the current timeseries, and provides links to (1) the previous and current timeseries data files, (2) the instrument used for processing, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
 
 ```mermaid exec
 flowchart LR
@@ -561,7 +601,6 @@ flowchart LR
 pacific rim
 
 :::
-
 
 #### Micropublication Data
 
