@@ -1,156 +1,350 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+# Micropublication Comparison Tool - Interactive Version
+# This script generates two micropublications with different interface.crate versions
+# and creates a side-by-side comparison interface for easy analysis
 
-# Parse arguments
+# Set strict error handling
+set -euo pipefail
+
+# Configuration
+DEFAULT_TRANSECT_ID="nzd0001-0001"
+DEFAULT_OUTPUT_DIR="./comparison_output"
 AUTO_OPEN=true
-TRANSECT_ID=""
-VERSION_1=""
-VERSION_2=""
-OUTPUT_DIR="comparison_output"
+
+# Color codes for terminal output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Ensure we're in the right directory (project root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
 
 show_help() {
-    echo "Usage: $0 <TRANSECT_ID> <VERSION_1> <VERSION_2> [--no-open] [--output-dir DIR] [--help]"
-    echo ""
-    echo "Compare micropublications generated with different interface.crate versions"
-    echo ""
-    echo "Arguments:"
-    echo "  TRANSECT_ID     Transect ID to generate micropublications for (e.g., nzd0001-0001, nzd0314-0137)"
-    echo "  VERSION_1       First interface.crate version (e.g., latest, interface.crate-cb67e8e26-20250801011405)"
-    echo "  VERSION_2       Second interface.crate version for comparison"
-    echo ""
-    echo "Options:"
-    echo "  --no-open       Don't automatically open the comparison HTML"
-    echo "  --output-dir    Directory to store comparison outputs (default: comparison_output)"
-    echo "  --help          Show this help message"
-    echo ""
-    echo "Examples:"
-    echo "  $0 nzd0001-0001 latest interface.crate-d61c2052a-20250725024714"
-    echo "  $0 nzd0314-0137 interface.crate-cb67e8e26-20250801011405 interface.crate-d61c2052a-20250725024714 --no-open"
-    echo ""
-    echo "Available versions can be found with:"
-    echo "  curl -s \"https://api.github.com/repos/GusEllerm/CoastSat-interface.crate/releases\" | grep '\"tag_name\"' | head -10"
-    echo ""
-    echo "Test transects:"
-    echo "  nzd0361-0064 -- no change in data, NZ transect"
-    echo "  nzd0001-0001 -- Change in data, NZ transect"
-    echo "  nzd0314-0137 -- change in data, but empty row appended"
+    cat << EOF
+🌊 Micropublication Comparison Tool
+
+USAGE:
+    $0 [OPTIONS]
+
+OPTIONS:
+    --output-dir DIR    Specify output directory (default: ./comparison_output)
+    --no-auto-open      Don't automatically open browser
+    --help              Show this help message
+
+EXAMPLES:
+    $0                           # Interactive mode (recommended)
+    $0 --output-dir ./my_comparison
+    $0 --help
+
+DESCRIPTION:
+    This tool generates two micropublications using different interface.crate versions
+    and creates a side-by-side comparison interface. The comparison includes:
+    
+    • Visual diff highlighting changes between versions
+    • Synchronized scrolling between both versions
+    • File size comparison
+    • Interactive controls for detailed analysis
+    
+    In interactive mode, you'll be prompted to:
+    1. Select a transect ID from available options
+    2. Choose from the latest interface.crate versions available on GitHub
+    3. Specify which two versions to compare
+    
+    The script automatically fetches available versions from the GitHub repository.
+
+EOF
 }
+
+fetch_available_versions() {
+    echo -e "${BLUE}📡 Fetching available interface.crate versions from GitHub...${NC}" >&2
+    
+    # First try to fetch from the interface.crate repository
+    local releases_json
+    if releases_json=$(curl -s "https://api.github.com/repos/GusEllerm/CoastSat-interface.crate/releases?per_page=15" 2>/dev/null); then
+        local versions
+        if versions=$(echo "$releases_json" | grep -o '"tag_name": *"[^"]*"' | sed 's/"tag_name": *"\([^"]*\)"/\1/' | head -10 2>/dev/null); then
+            if [ -n "$versions" ]; then
+                echo "$versions"
+                return
+            fi
+        fi
+    fi
+    
+    echo -e "${YELLOW}⚠️  Could not fetch from interface.crate repository, trying main CoastSat repository...${NC}" >&2
+    
+    # Fallback to main CoastSat repository
+    if releases_json=$(curl -s "https://api.github.com/repos/kvos/CoastSat/releases?per_page=15" 2>/dev/null); then
+        local versions
+        if versions=$(echo "$releases_json" | grep -o '"tag_name": *"[^"]*"' | sed 's/"tag_name": *"\([^"]*\)"/\1/' | head -10 2>/dev/null); then
+            if [ -n "$versions" ]; then
+                echo "$versions"
+                return
+            fi
+        fi
+    fi
+    
+    echo -e "${RED}❌ Failed to fetch releases from GitHub API${NC}" >&2
+    echo -e "${YELLOW}💡 Please check your internet connection or try again later${NC}" >&2
+    echo "" >&2
+    echo "As a fallback, you can manually specify versions from the following examples:" >&2
+    echo "  • latest" >&2
+    echo "  • interface.crate-cb67e8e26-20250801011405" >&2
+    echo "  • interface.crate-d61c2052a-20250725024714" >&2
+    echo "" >&2
+    exit 1
+}
+
+prompt_for_transect() {
+    echo "" >&2
+    echo -e "${CYAN}📍 Available transect options:${NC}" >&2
+    echo "   • Format: SITE-TRANSECT (e.g., nzd0001-0001, aus0001-0001)" >&2
+    echo "   • Australian coast: aus0001-XXXX to aus0089-XXXX" >&2
+    echo "   • New Zealand coast: nzd0001-XXXX to nzd0999-XXXX" >&2
+    echo "   • Custom transect ID" >&2
+    echo "" >&2
+    echo "Popular test transects:" >&2
+    echo "   • nzd0361-0064 -- no change in data, NZ transect" >&2
+    echo "   • nzd0001-0001 -- change in data, NZ transect" >&2
+    echo "   • nzd0314-0137 -- change in data, but empty row appended" >&2
+    echo "" >&2
+    
+    while true; do
+        printf "${GREEN}Enter transect ID (default: $DEFAULT_TRANSECT_ID): ${NC}" >&2
+        read -r input
+        
+        if [ -z "$input" ]; then
+            echo "$DEFAULT_TRANSECT_ID"
+            return
+        fi
+        
+        if [[ "$input" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+            echo "$input"
+            return
+        else
+            echo -e "${RED}❌ Invalid transect ID format. Please use the format SITE-TRANSECT (e.g., nzd0001-0001).${NC}" >&2
+        fi
+    done
+}
+
+prompt_for_version() {
+    local prompt_text="$1"
+    local versions="$2"
+    local exclude_version="$3"
+    
+    echo "" >&2
+    echo -e "${CYAN}$prompt_text${NC}" >&2
+    echo "Available versions:" >&2
+    
+    local i=1
+    local version_array=()
+    
+    while IFS= read -r version; do
+        if [ "$version" != "$exclude_version" ]; then
+            echo "   $i) $version" >&2
+            version_array+=("$version")
+            ((i++))
+        fi
+    done <<< "$versions"
+    
+    echo "" >&2
+    
+    while true; do
+        printf "${GREEN}Select version number (1-${#version_array[@]}): ${NC}" >&2
+        read -r choice
+        
+        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#version_array[@]}" ]; then
+            echo "${version_array[$((choice-1))]}"
+            return
+        else
+            echo -e "${RED}❌ Invalid selection. Please enter a number between 1 and ${#version_array[@]}.${NC}" >&2
+        fi
+    done
+}
+
+generate_micropublication() {
+    local version=$1
+    local output_subdir=$2
+    
+    echo -e "${BLUE}📦 Generating micropublication for version: $version${NC}"
+    
+    # Path to the original micropublication_logic.py file
+    local original_logic="CoastSat/micro_integration/publication.crate/micropublication_logic.py"
+    local interface_crate_dir="CoastSat/micro_integration/publication.crate/interface.crate"
+    
+    # Check if the original file exists
+    if [ ! -f "$original_logic" ]; then
+        echo -e "${RED}❌ micropublication_logic.py not found at $original_logic${NC}"
+        echo -e "${YELLOW}💡 Make sure you're running this script from the project root directory${NC}"
+        exit 1
+    fi
+    
+    # Backup the current interface.crate directory
+    local backup_dir="interface.crate.backup.$$"
+    if [ -d "$interface_crate_dir" ]; then
+        cp -r "$interface_crate_dir" "$backup_dir"
+    fi
+    
+    # Download and extract the specified interface.crate version
+    echo "   📥 Downloading interface.crate version: $version"
+    local download_url="https://github.com/GusEllerm/CoastSat-interface.crate/releases/download/$version/interface-crate.zip"
+    local temp_archive="interface-crate.$version.zip"
+    
+    if curl -L -o "$temp_archive" "$download_url" 2>/dev/null; then
+        echo "   📦 Extracting interface.crate..."
+        # Remove existing interface.crate directory
+        rm -rf "$interface_crate_dir"
+        # Extract the new version
+        unzip -q "$temp_archive" -d "temp_extract/"
+        # The zip should contain the interface.crate directory directly
+        if [ -d "temp_extract/interface.crate" ]; then
+            mv "temp_extract/interface.crate" "$interface_crate_dir"
+            echo "   ✅ Successfully updated interface.crate to version $version"
+        else
+            # Fallback: look for any directory in the extracted content
+            local extracted_dir=$(find temp_extract -maxdepth 1 -type d ! -name temp_extract | head -1)
+            if [ -n "$extracted_dir" ]; then
+                mv "$extracted_dir" "$interface_crate_dir"
+                echo "   ✅ Successfully updated interface.crate to version $version"
+            else
+                echo -e "${RED}   ❌ Failed to find interface.crate directory in extracted archive${NC}"
+                echo -e "${YELLOW}   💡 Falling back to existing interface.crate directory${NC}"
+            fi
+        fi
+        rm -rf "temp_extract"
+        rm -f "$temp_archive"
+    else
+        echo -e "${RED}   ❌ Failed to download interface.crate version $version${NC}"
+        echo -e "${YELLOW}   💡 URL: $download_url${NC}"
+        echo -e "${YELLOW}   💡 Falling back to existing interface.crate directory${NC}"
+    fi
+    
+    echo "   Using interface.crate version: $version"
+    echo "   Output: $output_subdir/"
+    
+    # Generate the micropublication (using the original script without modifications)
+    if python3 "$original_logic" "$TRANSECT_ID" --output "$output_subdir/micropublication.html"; then
+        echo -e "${GREEN}   ✅ Successfully generated micropublication${NC}"
+    else
+        echo -e "${RED}   ❌ Failed to generate micropublication${NC}"
+        # Restore backup
+        if [ -d "$backup_dir" ]; then
+            rm -rf "$interface_crate_dir"
+            mv "$backup_dir" "$interface_crate_dir"
+        fi
+        exit 1
+    fi
+    
+    # Restore the original interface.crate directory
+    if [ -d "$backup_dir" ]; then
+        rm -rf "$interface_crate_dir"
+        mv "$backup_dir" "$interface_crate_dir"
+        echo "   🔄 Restored original interface.crate directory"
+    fi
+}
+
+# Parse command line arguments
+OUTPUT_DIR="$DEFAULT_OUTPUT_DIR"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --no-open)
-            AUTO_OPEN=false
-            shift
+        --help|-h)
+            show_help
+            exit 0
             ;;
         --output-dir)
             OUTPUT_DIR="$2"
             shift 2
             ;;
-        -h|--help)
-            show_help
-            exit 0
+        --no-auto-open)
+            AUTO_OPEN=false
+            shift
+            ;;
+        --*)
+            echo -e "${RED}🚫 Unknown option: $1${NC}"
+            echo -e "${YELLOW}💡 Use --help for usage information${NC}"
+            exit 1
             ;;
         *)
-            if [ -z "$TRANSECT_ID" ]; then
-                TRANSECT_ID="$1"
-            elif [ -z "$VERSION_1" ]; then
-                VERSION_1="$1"
-            elif [ -z "$VERSION_2" ]; then
-                VERSION_2="$1"
-            else
-                echo "❌ Too many arguments provided"
-                show_help
-                exit 1
-            fi
-            shift
+            echo -e "${RED}🚫 Unexpected argument: $1${NC}"
+            echo -e "${YELLOW}💡 This tool now runs in interactive mode. Use --help for more information${NC}"
+            exit 1
             ;;
     esac
 done
 
-# Validate required arguments
-if [ -z "$TRANSECT_ID" ] || [ -z "$VERSION_1" ] || [ -z "$VERSION_2" ]; then
-    echo "❌ Missing required arguments"
-    show_help
+# Welcome message
+echo -e "${BLUE}🌊 Welcome to the Micropublication Comparison Tool!${NC}"
+echo ""
+echo "This tool will help you compare micropublications generated from different"
+echo "interface.crate versions to understand how changes in the CoastSat experiment"
+echo "affect the resulting publications."
+
+# Fetch available versions
+AVAILABLE_VERSIONS=$(fetch_available_versions)
+
+if [ -z "$AVAILABLE_VERSIONS" ]; then
+    echo -e "${RED}❌ No versions available for comparison${NC}"
     exit 1
 fi
 
-if [ "$VERSION_1" = "$VERSION_2" ]; then
-    echo "❌ Cannot compare the same version with itself"
-    echo "Please provide two different interface.crate versions"
-    exit 1
-fi
+echo -e "${GREEN}✅ Found $(echo "$AVAILABLE_VERSIONS" | wc -l) available versions${NC}"
 
-echo "🔍 CoastSat Micropublication Comparison Tool"
-echo "============================================"
-echo "📍 Transect ID: $TRANSECT_ID"
-echo "🔢 Version 1: $VERSION_1"
-echo "🔢 Version 2: $VERSION_2"
-echo "📂 Output Directory: $OUTPUT_DIR"
+# Interactive prompts
+TRANSECT_ID=$(prompt_for_transect)
+VERSION_1=$(prompt_for_version "🔹 Select the FIRST version to compare:" "$AVAILABLE_VERSIONS" "")
+VERSION_2=$(prompt_for_version "🔸 Select the SECOND version to compare:" "$AVAILABLE_VERSIONS" "$VERSION_1")
+
+echo ""
+echo -e "${CYAN}📋 Comparison Configuration:${NC}"
+echo "   Transect ID: $TRANSECT_ID"
+echo "   Version 1: $VERSION_1"
+echo "   Version 2: $VERSION_2"
+echo "   Output Directory: $OUTPUT_DIR"
 echo ""
 
+printf "${GREEN}Proceed with this configuration? (y/N): ${NC}" >&2
+read -r confirm
+
+if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo -e "${YELLOW}❌ Comparison cancelled by user${NC}"
+    exit 0
+fi
+
+# Validate that versions are different
+if [ "$VERSION_1" = "$VERSION_2" ]; then
+    echo -e "${RED}❌ Cannot compare the same version with itself${NC}"
+    echo "Please run the script again and select different versions"
+    exit 1
+fi
+
+echo ""
+echo -e "${BLUE}🔍 Starting CoastSat Micropublication Comparison${NC}"
+echo "============================================"
+
 # Create output directory structure
+echo -e "${BLUE}📁 Setting up output directories...${NC}"
 mkdir -p "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR/version1"
 mkdir -p "$OUTPUT_DIR/version2"
 
-# Function to generate micropublication with specific version
-generate_micropublication() {
-    local version=$1
-    local output_subdir=$2
-    local version_label=$3
-    
-    echo "🚀 Generating micropublication with $version_label ($version)..."
-    
-    # Clean up any existing publication.crate
-    if [ -d "publication.crate" ]; then
-        rm -rf publication.crate/
-    fi
-    
-    # Generate publication crate with specified version
-    if [ "$version" = "latest" ]; then
-        timeout 300 python src/crate_builder.py || {
-            echo "❌ Failed to build crate with $version_label"
-            return 1
-        }
-    else
-        timeout 300 python src/crate_builder.py --interface-crate "$version" || {
-            echo "❌ Failed to build crate with $version_label"
-            return 1
-        }
-    fi
-    
-    # Generate HTML micropublication
-    python src/publication_logic.py "$TRANSECT_ID" || {
-        echo "❌ Failed to generate micropublication with $version_label"
-        return 1
-    }
-    
-    # Copy results to output directory
-    if [ -f "micropublication.html" ]; then
-        cp "micropublication.html" "$OUTPUT_DIR/$output_subdir/micropublication.html"
-        echo "✅ $version_label micropublication saved to $OUTPUT_DIR/$output_subdir/micropublication.html"
-        
-        # Get file size for comparison
-        local file_size=$(ls -lh "micropublication.html" | awk '{print $5}')
-        echo "📊 File size: $file_size"
-    else
-        echo "❌ HTML micropublication not generated for $version_label"
-        return 1
-    fi
-}
-
 # Generate micropublications
-echo "🔧 Starting micropublication generation..."
 echo ""
+echo -e "${BLUE}🏗️  Generating micropublications...${NC}"
 
-generate_micropublication "$VERSION_1" "version1" "Version 1"
+generate_micropublication "$VERSION_1" "$OUTPUT_DIR/version1"
 echo ""
-generate_micropublication "$VERSION_2" "version2" "Version 2"
+generate_micropublication "$VERSION_2" "$OUTPUT_DIR/version2"
+
 echo ""
 
 # Create comparison HTML page
-echo "🎨 Creating comparison interface..."
+echo -e "${BLUE}🎨 Creating comparison interface...${NC}"
 
 # First, let's create a simple HTTP server script
 cat > "$OUTPUT_DIR/start_server.py" << 'EOF'
@@ -680,24 +874,24 @@ if [ -f "$OUTPUT_DIR/version1/micropublication.html" ] && [ -f "$OUTPUT_DIR/vers
     SIZE_2=$(ls -lh "$OUTPUT_DIR/version2/micropublication.html" | awk '{print $5}')
     
     echo ""
-    echo "📊 File size comparison:"
+    echo -e "${CYAN}📊 File size comparison:${NC}"
     echo "   Version 1 ($VERSION_1): $SIZE_1"
     echo "   Version 2 ($VERSION_2): $SIZE_2"
 fi
 
-echo "✅ Comparison interface created successfully!"
+echo -e "${GREEN}✅ Comparison interface created successfully!${NC}"
 echo ""
 
 # Handle auto-open or provide manual instructions
 if [ "$AUTO_OPEN" = true ]; then
-    echo "🚀 Starting HTTP server and opening comparison interface..."
-    echo "📝 Note: Using HTTP server to avoid browser security restrictions"
+    echo -e "${BLUE}🚀 Starting HTTP server and opening comparison interface...${NC}"
+    echo -e "${YELLOW}📝 Note: Using HTTP server to avoid browser security restrictions${NC}"
     echo ""
     
     # Check if port 8000 is already in use and offer to clean it up
     if lsof -ti :8000 >/dev/null 2>&1; then
-        echo "⚠️  Port 8000 appears to be in use (likely from a previous comparison)"
-        echo "🔧 The server will automatically handle this and use an available port"
+        echo -e "${YELLOW}⚠️  Port 8000 appears to be in use (likely from a previous comparison)${NC}"
+        echo -e "${BLUE}🔧 The server will automatically handle this and use an available port${NC}"
         echo ""
     fi
     
@@ -720,15 +914,15 @@ if [ "$AUTO_OPEN" = true ]; then
     ))
     
     if [ -n "$ACTUAL_PORT" ]; then
-        echo "✅ Server started (PID: $SERVER_PID) on port $ACTUAL_PORT"
-        echo "🌐 Comparison available at: http://localhost:$ACTUAL_PORT/comparison.html"
+        echo -e "${GREEN}✅ Server started (PID: $SERVER_PID) on port $ACTUAL_PORT${NC}"
+        echo -e "${BLUE}🌐 Comparison available at: http://localhost:$ACTUAL_PORT/comparison.html${NC}"
     else
-        echo "✅ Server started (PID: $SERVER_PID)"
-        echo "🌐 Check the server output above for the actual port number"
+        echo -e "${GREEN}✅ Server started (PID: $SERVER_PID)${NC}"
+        echo -e "${BLUE}🌐 Check the server output above for the actual port number${NC}"
     fi
     
     echo ""
-    echo "💡 To stop the server later:"
+    echo -e "${YELLOW}💡 To stop the server later:${NC}"
     echo "   Method 1: kill $SERVER_PID"
     echo "   Method 2: Press Ctrl+C in the server terminal"
     echo "   Method 3: Close the browser tab (server will continue but you can stop it manually)"
@@ -736,32 +930,32 @@ if [ "$AUTO_OPEN" = true ]; then
     # Go back to original directory
     cd - > /dev/null
 else
-    echo "ℹ️  Auto-open disabled. To view the comparison:"
+    echo -e "${BLUE}ℹ️  Auto-open disabled. To view the comparison:${NC}"
     echo ""
-    echo "Option 1 - Start HTTP server (recommended):"
+    echo -e "${GREEN}Option 1 - Start HTTP server (recommended):${NC}"
     echo "   cd $OUTPUT_DIR && python3 start_server.py --open"
     echo ""
-    echo "Option 2 - Direct file access (may have limitations):"
+    echo -e "${YELLOW}Option 2 - Direct file access (may have limitations):${NC}"
     echo "   file://$(pwd)/$OUTPUT_DIR/comparison.html"
     echo ""
-    echo "💡 The HTTP server option avoids browser security restrictions"
+    echo -e "${BLUE}💡 The HTTP server option avoids browser security restrictions${NC}"
     echo "   and will automatically handle port conflicts if they occur"
 fi
 
 echo ""
-echo "🎯 Next steps:"
+echo -e "${CYAN}🎯 Next steps:${NC}"
 echo "   • The comparison interface will open automatically in your browser"
 echo "   • Scroll through both micropublications to compare differences"
 echo "   • Use the toggle sync button to enable/disable synchronized scrolling"
 echo "   • Click 'Open Originals' to view micropublications in separate tabs"
 echo "   • Check the comparison report above for file size differences"
 echo ""
-echo "⌨️  Keyboard shortcuts:"
+echo -e "${CYAN}⌨️  Keyboard shortcuts:${NC}"
 echo "   • Ctrl/Cmd + S: Toggle sync"
 echo "   • Ctrl/Cmd + R: Reset view"
 echo "   • Ctrl/Cmd + O: Open originals"
 echo ""
-echo "🔧 Technical notes:"
+echo -e "${CYAN}🔧 Technical notes:${NC}"
 echo "   • HTTP server runs on localhost:8000 to avoid browser security restrictions"
 echo "   • Server will continue running until you stop it (Ctrl+C)"
 echo "   • All files are served locally from your machine"

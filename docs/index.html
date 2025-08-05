@@ -37,7 +37,7 @@
         
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -157,26 +157,35 @@
     
     <div class="cards">
         <div class="card">
-            <h2>📊 Micropublication Article</h2>
+            <h2>Micropublication Article</h2>
             <p>
-                View the interactive micropublication with live data analysis, 
-                trend visualization, and narrative-driven insights for this coastal transect.
+                View an example live micropublication, dependent on the current state of the 
+                <a href="https://github.com/UoA-eResearch/CoastSat" target="_blank" style="color: #667eea; text-decoration: none;">CoastSat experiment</a>. 
+                This interactive publication dynamically reflects the latest data analysis and computational workflows.
             </p>
             <a href="micropublication.html" class="btn">View Micropublication</a>
         </div>
         
         <div class="card">
-            <h2>📦 Publication Crate</h2>
+            <h2>Publication Crate</h2>
             <p>
-                Explore the complete research package including metadata, data files, 
-                computational workflows, and provenance information following FAIR principles.
+                Explore the Publication Crate research object containerising the micropublication, 
+                its generation tools and scripts, and the interface.crate model representing the CoastSat experiment.
             </p>
             <a href="ro-crate-preview.html" class="btn secondary">Browse RO-Crate</a>
+        </div>
+        
+        <div class="card">
+            <h2>Version Comparison</h2>
+            <p>
+                View two versions of the micropublication dependent on different states of the CoastSat experiment.
+            </p>
+            <a href="version-comparison.html" class="btn secondary">View Comparison</a>
         </div>
     </div>
     
     <div class="meta">
-        <h3>📋 Publication Metadata</h3>
+        <h3>Publication Metadata</h3>
         <div class="meta-grid">
             <div class="meta-item">
                 <div class="meta-label">Transect ID</div>
@@ -188,7 +197,7 @@
             </div>
             <div class="meta-item">
                 <div class="meta-label">Generated</div>
-                <div class="meta-value">August 05, 2025 at 02:36 PM</div>
+                <div class="meta-value">August 05, 2025 at 03:51 PM</div>
             </div>
             <div class="meta-item">
                 <div class="meta-label">Data Format</div>
