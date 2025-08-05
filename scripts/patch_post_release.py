@@ -10,7 +10,7 @@ release_url = sys.argv[1]
 
 # Dynamically resolve path to publication.crate/ relative to script location
 SCRIPT_DIR = Path(__file__).resolve().parent
-CRATE_DIR = SCRIPT_DIR / "publication.crate"
+CRATE_DIR = SCRIPT_DIR.parent / "publication.crate"  # Go up one level to project root
 
 interface_crate = ROCrate(str(CRATE_DIR))
 

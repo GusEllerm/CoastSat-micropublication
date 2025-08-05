@@ -114,7 +114,7 @@ def add_dnf_deps(crate, interface_crate_version="latest"):
     """
     repo_owner = "GusEllerm"
     repo_name = "CoastSat-interface.crate"
-    download_dir = "publication.crate"
+    download_dir = "."  # Extract to current working directory
 
     # Determine API URL based on version
     if interface_crate_version == "latest":
@@ -151,7 +151,8 @@ def add_dnf_deps(crate, interface_crate_version="latest"):
         zip_response.raise_for_status()
 
         with zipfile.ZipFile(io.BytesIO(zip_response.content)) as z:
-            z.extractall(download_dir)  # Extracts to current working directory  print(f"✅ Extracted to {download_dir}")
+            z.extractall(download_dir)  # Extracts to current working directory
+            print(f"✅ Extracted to {download_dir}")
 
     except requests.exceptions.HTTPError as e:
         if hasattr(e, 'response') and e.response.status_code == 404:
@@ -167,10 +168,27 @@ def add_dnf_deps(crate, interface_crate_version="latest"):
         else:
             raise e
 
-    if not os.path.isdir(download_dir):
-        raise Exception(f"{download_dir} directory is missing after extraction.")
+    # Handle the case where the zip contains interface.crate/ directory
+    # The zip may extract to interface.crate/interface.crate/ structure  
+    extracted_interface_crate = os.path.join(download_dir, "interface.crate")
+    if os.path.exists(extracted_interface_crate) and os.path.exists(os.path.join(extracted_interface_crate, "ro-crate-metadata.json")):
+        # The zip contained interface.crate/ directory at root, we already have the right structure
+        print("📁 Interface.crate extracted with correct structure")
+    elif os.path.exists(os.path.join(extracted_interface_crate, "interface.crate", "ro-crate-metadata.json")):
+        # The zip contained interface.crate/interface.crate/ - need to flatten
+        inner_interface_crate = os.path.join(extracted_interface_crate, "interface.crate")
+        temp_dir = os.path.join(download_dir, "temp_interface_crate")
+        shutil.move(inner_interface_crate, temp_dir)
+        shutil.rmtree(extracted_interface_crate)
+        shutil.move(temp_dir, extracted_interface_crate)
+        print("📁 Reorganized nested interface.crate directory structure")
+    else:
+        raise Exception("interface.crate directory structure is unexpected after extraction.")
 
-    nested = crate.add(Dataset(crate, download_dir + "/interface.crate/", properties={
+    if not os.path.isdir("interface.crate"):
+        raise Exception("interface.crate directory is missing after extraction.")
+
+    nested = crate.add(Dataset(crate, "interface.crate/", properties={
         "name": "Interface Crate",
         "@type": ["RO-Crate", "Dataset"],
         "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
@@ -240,6 +258,17 @@ def create_publication_crate(crate_dir="publication.crate", interface_crate_vers
 
     # Write to disk
     Path(crate_dir).mkdir(parents=True, exist_ok=True)
+    
+    # Before writing the crate, ensure the interface.crate directory is properly copied
+    interface_crate_source = "interface.crate"
+    interface_crate_dest = os.path.join(crate_dir, "interface.crate")
+    
+    if os.path.exists(interface_crate_source) and os.path.exists(os.path.join(interface_crate_source, "ro-crate-metadata.json")):
+        if os.path.exists(interface_crate_dest):
+            shutil.rmtree(interface_crate_dest)
+        shutil.copytree(interface_crate_source, interface_crate_dest)
+        print(f"📋 Copied interface.crate to {interface_crate_dest}")
+    
     crate.write(crate_dir)
 
     # Clean up temporary files and directories
