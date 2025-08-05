@@ -215,3 +215,8 @@ Desktop.ini
 
 *.zip
 token.txt
+venv/
+
+# Project-specific ignores
+comparison_output/
+shoreline_project/
