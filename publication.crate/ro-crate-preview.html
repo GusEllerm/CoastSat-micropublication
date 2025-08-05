@@ -14,7 +14,7 @@
       "creator": {
         "@id": "#creator"
       },
-      "datePublished": "2025-08-05T04:43:40+00:00",
+      "datePublished": "2025-08-05T05:57:26+00:00",
       "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
       "hasPart": [
         {
@@ -50,6 +50,18 @@
       }
     },
     {
+      "@id": "#creator",
+      "@type": "Person",
+      "name": "Unknown Author",
+      "@reverse": {
+        "creator": [
+          {
+            "@id": "./"
+          }
+        ]
+      }
+    },
+    {
       "@id": "micropublication.smd",
       "@type": [
         "File",
@@ -72,63 +84,6 @@
         "isBasedOn": [
           {
             "@id": "#dnf-evaluated-document"
-          }
-        ]
-      }
-    },
-    {
-      "@id": "interface.crate/",
-      "@type": [
-        "RO-Crate",
-        "Dataset"
-      ],
-      "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
-      "license": "https://creativecommons.org/licenses/by/4.0/",
-      "name": "Interface Crate",
-      "@reverse": {
-        "hasPart": [
-          {
-            "@id": "./"
-          }
-        ],
-        "isBasedOn": [
-          {
-            "@id": "#dnf-evaluated-document"
-          }
-        ]
-      }
-    },
-    {
-      "@id": "publication_logic.py",
-      "@type": [
-        "File",
-        "SoftwareSourceCode"
-      ],
-      "description": "Python logic for generating publications from the DNF document.",
-      "encodingFormat": "text/x-python",
-      "name": "Publication Logic",
-      "sha256": "aab836a94fe5825419e65990e56d9b402709a01d4a2d5403103bc482ae6297c5",
-      "@reverse": {
-        "hasPart": [
-          {
-            "@id": "./"
-          }
-        ],
-        "wasGeneratedBy": [
-          {
-            "@id": "#research-article"
-          }
-        ]
-      }
-    },
-    {
-      "@id": "#creator",
-      "@type": "Person",
-      "name": "Unknown Author",
-      "@reverse": {
-        "creator": [
-          {
-            "@id": "./"
           }
         ]
       }
@@ -175,6 +130,28 @@
         "isBasedOn": [
           {
             "@id": "#stencila"
+          }
+        ]
+      }
+    },
+    {
+      "@id": "interface.crate/",
+      "@type": [
+        "RO-Crate",
+        "Dataset"
+      ],
+      "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "name": "Interface Crate",
+      "@reverse": {
+        "hasPart": [
+          {
+            "@id": "./"
+          }
+        ],
+        "isBasedOn": [
+          {
+            "@id": "#dnf-evaluated-document"
           }
         ]
       }
@@ -242,7 +219,6 @@
         }
       ],
       "name": "LivePublication: A Dynamic and Reproducible Research Article",
-      "url": "https://github.com/GusEllerm/CoastSat-micropublication/releases/tag/micropublication-crate-release-2025-08-05_16-43-41",
       "wasGeneratedBy": [
         {
           "@id": "#dnf-presentation-environment"
@@ -255,6 +231,29 @@
         "mainEntity": [
           {
             "@id": "./"
+          }
+        ]
+      }
+    },
+    {
+      "@id": "publication_logic.py",
+      "@type": [
+        "File",
+        "SoftwareSourceCode"
+      ],
+      "description": "Python logic for generating publications from the DNF document.",
+      "encodingFormat": "text/x-python",
+      "name": "Publication Logic",
+      "sha256": "aab836a94fe5825419e65990e56d9b402709a01d4a2d5403103bc482ae6297c5",
+      "@reverse": {
+        "hasPart": [
+          {
+            "@id": "./"
+          }
+        ],
+        "wasGeneratedBy": [
+          {
+            "@id": "#research-article"
           }
         ]
       }
@@ -331,7 +330,7 @@ table.table {
             <td style='text-align:left'><span>This crate contains the interface.crate and a Stencila DNF document for generating micropublications.</span></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">datePublished<span>&nbsp;</span><a href="http://schema.org/datePublished">[?]</a></th>
-            <td style='text-align:left'><span>2025-08-05T04:43:40+00:00</span></td>
+            <td style='text-align:left'><span>2025-08-05T05:57:26+00:00</span></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">creator<span>&nbsp;</span><a href="http://schema.org/creator">[?]</a></th>
             <td style='text-align:left'><a href="#%23creator">Unknown Author</a></td>
@@ -542,9 +541,6 @@ table.table {
                         
                         <li><a href="#%23dnf-presentation-environment">DNF Presentation Environment</a></li>
                         </ul></td>
-            </tr><tr>
-            <th style="text-align:left;" class="prop">url<span>&nbsp;</span><a href="http://schema.org/url">[?]</a></th>
-            <td style='text-align:left'><a href="https://github.com/GusEllerm/CoastSat-micropublication/releases/tag/micropublication-crate-release-2025-08-05_16-43-41">https://github.com/GusEllerm/CoastSat-micropublication/releases/tag/micropublication-crate-release-2025-08-05_16-43-41</a></td>
             </tr><tr>
             <th style="text-align:left;" class="prop">wasGeneratedBy</th>
             <td style='text-align:left'><ul>
