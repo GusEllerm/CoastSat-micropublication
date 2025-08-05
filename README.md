@@ -27,6 +27,16 @@ python src/crate_builder.py --interface-crate interface.crate-d61c2052a-20250725
 ./tests/test_publication_compare.sh nzd0001-0001 latest interface.crate-d61c2052a-20250725024714
 ```
 
+### Deploy to GitHub Pages
+
+```bash
+# Generate micropublication and publish to GitHub Pages
+./scripts/publish_to_docs.sh nzd0001-0001
+
+# Commit and deploy
+git add docs/ && git commit -m "Publish micropublication" && git push
+```
+
 ## 📋 Core Features
 
 - **Dynamic Micropublications**: Executable documents with live code and coastal data analysis
@@ -62,6 +72,7 @@ python src/crate_builder.py --interface-crate interface.crate-d61c2052a-20250725
 | --------------------------------- | -------------------------------------------------------------- |
 | Quick generate (script)           | `./scripts/generate_publication.sh [TRANSECT_ID]`             |
 | Create GitHub release             | `./scripts/create_publication.sh`                             |
+| **Publish to GitHub Pages**       | `./scripts/publish_to_docs.sh [TRANSECT_ID] [VERSION]`        |
 
 ## 💡 Key Options & Features
 
