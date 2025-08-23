@@ -399,17 +399,17 @@ date_min = pd.to_datetime(df["dates"]).min().strftime("%B %d, %Y")
 date_max = pd.to_datetime(df["dates"]).max().strftime("%B %d, %Y")
 ```
 
-::: if site_data.orientation is not None
+:::: if site_data.orientation is not None
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
 This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}, and the transect is oriented at **`site_data.orientation`{python exec}** degrees.
 
-::: else 
+:::: else 
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
 This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}.
 
-:::
+::::
 
 :::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
 
@@ -534,22 +534,22 @@ date_min = pd.to_datetime(df["dates"]).min().strftime("%B %d, %Y")
 date_max = pd.to_datetime(df["dates"]).max().strftime("%B %d, %Y")
 ```
 
-::: if site_data.orientation is not None
+:::: if site_data.orientation is not None
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
 This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}, and the transect is oriented at **`site_data.orientation`{python exec}** degrees.
 
-::: else
+:::: else
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
 This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}.
 
-:::
+::::
 
 :::: if (previous_timeserries.get('sha256') == current_timeserries.get('sha256'))
 
 Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
-The data for this transect was not updated during the current processing cycle (`date_str`{python exec}). The current version of the data is identical to the previous version.
+The data for this transect was not updated during the current processing cycle (`run_date`{python exec}). The current version of the data is identical to the previous version.
 The graph below illustrates the data this transect was derived from, and provides links to (1) the input transect data, (2) the full transect regression data, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
 
 ```mermaid exec
@@ -611,6 +611,95 @@ While the data for this transect was updated during the current processing cycle
 :::::
 
 ::::
+
+::: elif "ber" in site_data.id
+
+
+```python exec 
+# For the growing Bermuda dataset, we want to link and compare the current version of the data with the previous version.
+# First, load the create_action which models the batch processing of NZ transects
+ber_create_action = batch_processes_crate.get("#batch-process-bermuda")
+# Grab the instrument responsible for transforming the data
+instrument = resolve_linked_entity(batch_processes_crate, ber_create_action, "instrument")
+
+# Then, filter the linked entities to find the previous and current timeseries for this site.
+previous_timeserries = filter_linked_entities_by_substring(batch_processes_crate, [ber_create_action], "object", site_data.site_id)
+current_timeserries = filter_linked_entities_by_substring(batch_processes_crate, [ber_create_action], "result", site_data.site_id)
+
+# We expect prev and current timeseries to be a single entity. Check, and if not, raise an error if current is missing.
+if len(current_timeserries) != 1:
+    raise ValueError(f"Expected exactly one current timeseries for site {site_data.site_id}, but found {len(current_timeserries)}.")
+
+no_previous_timeseries = len(previous_timeserries) == 0
+
+current_timeserries = current_timeserries[0]
+current_timeserries_name = current_timeserries.get("name", "Current Timeseries")
+current_timeserries_url = current_timeserries.get("@id")
+
+instrument_name = instrument.get("name", "Unknown Instrument")
+instrument_url = instrument.get("codeRepository")
+
+if not no_previous_timeseries:
+    previous_timeserries = previous_timeserries[0]
+    previous_timeserries_name = previous_timeserries.get("name", "Previous Timeseries")
+    previous_timeserries_url = previous_timeserries.get("@id")
+else:
+    previous_timeserries = None
+    previous_timeserries_name = None
+    previous_timeserries_url = None
+```
+
+```python exec
+# Logic to get the transect data characteristics
+raw_new_url = convert_to_raw_url(current_timeserries_url)
+df = pd.read_csv(raw_new_url)
+date_min = pd.to_datetime(df["dates"]).min().strftime("%B %d, %Y")
+date_max = pd.to_datetime(df["dates"]).max().strftime("%B %d, %Y")
+```
+
+:::: if site_data.orientation is not None
+
+Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
+This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}, and the transect is oriented at **`site_data.orientation`{python exec}** degrees.
+
+:::: else
+
+Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
+This transect contains **`site_data.n_points`{python exec}** data points, with **`site_data.n_points_nonan`{python exec}** no-NaN values. The data spans from `date_min`{python exec} to `date_max`{python exec}.
+
+::::
+
+:::: if no_previous_timeseries
+
+Linear model results for all transects can be downloaded `dict(type="Link", target=primary_result_url, content=[dict(type="Text", value=f"here")])`{python exec}.
+The data for this transect was not updated during the current processing cycle (`run_date`{python exec}). The current version of the data is identical to the previous version.
+The graph below illustrates the data this transect was derived from, and provides links to (1) the input transect data, (2) the full transect regression data, and (3) a link to a secondary publication.crate describing the CoastSat methodology (Analysis).
+
+```mermaid exec
+flowchart LR
+
+    A[/"{{ current_timeserries_name }}"/]
+
+    subgraph Analysis
+        D[/"Trend Analysis"/]
+    end
+
+    A --> Analysis
+
+    Analysis --> E[/"Transect Regression Data"/]
+
+    click A href "{{ current_timeserries_url }}" _blank
+    click E href "{{ primary_result_url }}" _blank
+```
+
+
+:::: else
+
+<!-- TODO. Given previous and current do comparison --->
+
+::::
+
+
 
 ::: else
 
