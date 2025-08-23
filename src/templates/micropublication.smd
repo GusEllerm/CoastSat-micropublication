@@ -244,7 +244,7 @@ show_trend = False
 ::: if (abs(site_data.trend) < trend_threshold) 
 
 > [!failure]- The trend fit is not valid due to a trend value of **`site_data.trend`{python exec}** m/year.
-> This trend is below the threshold of **{trend_threshold}** m/year.
+> This trend is below the threshold of **`trend_threshold`{python exec}** m/year.
 
 ```python exec
 show_trend = False
