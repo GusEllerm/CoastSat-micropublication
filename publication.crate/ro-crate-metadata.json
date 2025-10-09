@@ -36,11 +36,6 @@
             }
         },
         {
-            "@id": "#creator",
-            "@type": "Person",
-            "name": "Unknown Author"
-        },
-        {
             "@id": "micropublication.smd",
             "@type": [
                 "File",
@@ -54,6 +49,32 @@
             "encodingFormat": "application/smd",
             "name": "DNF Document File",
             "sha256": "cd59cd807c1aa1ae68e1dc37e0d36a726a2d2c3d74b87c6b7120794b70567f5c"
+        },
+        {
+            "@id": "interface.crate/",
+            "@type": [
+                "RO-Crate",
+                "Dataset"
+            ],
+            "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "name": "Interface Crate"
+        },
+        {
+            "@id": "publication_logic.py",
+            "@type": [
+                "File",
+                "SoftwareSourceCode"
+            ],
+            "description": "Python logic for generating publications from the DNF document.",
+            "encodingFormat": "text/x-python",
+            "name": "Publication Logic",
+            "sha256": "77df8c989eb3ea29181b86ed1e7773b3991705b0aaa25f70c0bbed6bfe73268c"
+        },
+        {
+            "@id": "#creator",
+            "@type": "Person",
+            "name": "Unknown Author"
         },
         {
             "@id": "#stencila",
@@ -78,16 +99,6 @@
             "license": "https://www.apache.org/licenses/LICENSE-2.0",
             "name": "Stencila DNF Engine Specification",
             "url": "https://github.com/stencila/stencila/tree/v2.6.0/schema"
-        },
-        {
-            "@id": "interface.crate/",
-            "@type": [
-                "RO-Crate",
-                "Dataset"
-            ],
-            "description": "Nested interface.crate containing Experiment Infrastructure execution data.",
-            "license": "https://creativecommons.org/licenses/by/4.0/",
-            "name": "Interface Crate"
         },
         {
             "@id": "#dnf-evaluated-document",
@@ -133,6 +144,7 @@
                 }
             ],
             "name": "LivePublication: A Dynamic and Reproducible Research Article",
+            "url": "https://github.com/GusEllerm/CoastSat-micropublication/releases/tag/micropublication-crate-release-2025-10-10_10-58-19",
             "wasGeneratedBy": [
                 {
                     "@id": "#dnf-presentation-environment"
@@ -141,17 +153,6 @@
                     "@id": "publication_logic.py"
                 }
             ]
-        },
-        {
-            "@id": "publication_logic.py",
-            "@type": [
-                "File",
-                "SoftwareSourceCode"
-            ],
-            "description": "Python logic for generating publications from the DNF document.",
-            "encodingFormat": "text/x-python",
-            "name": "Publication Logic",
-            "sha256": "77df8c989eb3ea29181b86ed1e7773b3991705b0aaa25f70c0bbed6bfe73268c"
         }
     ]
 }

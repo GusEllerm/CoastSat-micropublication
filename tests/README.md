@@ -15,11 +15,16 @@ Run tests from the project root directory:
 # Test micropublication generation for a specific transect
 ./tests/test_gen_micropublication.sh nzd0001-0001
 
-# Compare micropublications with different interface.crate versions
-./tests/test_publication_compare.sh nzd0001-0001 latest interface.crate-d61c2052a-20250725024714
+# Compare micropublications with different interface.crate versions (interactive mode)
+./tests/test_publication_compare.sh
 
-# Compare without auto-opening browser
-./tests/test_publication_compare.sh nzd0001-0001 latest interface.crate-d61c2052a-20250725024714 --no-open
+# Options for comparison script:
+#   --output-dir DIR    Specify output directory (default: ./comparison_output)
+#   --no-auto-open      Don't automatically open browser
+#   --help              Show help message
+
+# Example with custom output directory and no auto-open:
+./tests/test_publication_compare.sh --output-dir ./my_comparison --no-auto-open
 ```
 
 ## Publication Comparison Features

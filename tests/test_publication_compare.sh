@@ -173,9 +173,9 @@ generate_micropublication() {
     
     echo -e "${BLUE}📦 Generating micropublication for version: $version${NC}"
     
-    # Path to the original micropublication_logic.py file
-    local original_logic="CoastSat/micro_integration/publication.crate/micropublication_logic.py"
-    local interface_crate_dir="CoastSat/micro_integration/publication.crate/interface.crate"
+    # Path to the original micropublication_logic.py file (main repo)
+    local original_logic="publication.crate/publication_logic.py"
+    local interface_crate_dir="publication.crate/interface.crate"
     
     # Check if the original file exists
     if [ ! -f "$original_logic" ]; then
