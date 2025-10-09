@@ -4,7 +4,7 @@
         {
             "@id": "./",
             "@type": "Dataset",
-            "datePublished": "2025-08-23T02:02:41+00:00",
+            "datePublished": "2025-10-09T21:31:55+00:00",
             "hasPart": [
                 {
                     "@id": "linear_models.ipynb"
@@ -583,7 +583,7 @@
             "input": [],
             "name": "Code Cell 7",
             "output": [],
-            "sha256": "0f5c82bf4e778beffa2c59c429131ad6a53b0ce543aab1caa10ab119d39ec912"
+            "sha256": "c3628948e63a9f13a48efe804d792708fb51af31f10508b7d0067792328280aa"
         },
         {
             "@id": "code_blocks/cell_8.py",
@@ -609,7 +609,7 @@
             "input": [],
             "name": "Code Cell 9",
             "output": [],
-            "sha256": "f01a6697ecbb8162cd2e815d6b13b6c2c3de843e6bc1a81a80b0df5055ce1c8e"
+            "sha256": "f85be9a1d0fabf41dc7e79006f6081c1cb409567ceb396a24cab0931ba7545ba"
         },
         {
             "@id": "code_blocks/cell_10.py",

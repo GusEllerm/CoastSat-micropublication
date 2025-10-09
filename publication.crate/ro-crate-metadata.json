@@ -7,7 +7,7 @@
             "creator": {
                 "@id": "#creator"
             },
-            "datePublished": "2025-08-23T02:26:49+00:00",
+            "datePublished": "2025-10-09T21:58:18+00:00",
             "description": "This crate contains the interface.crate and a Stencila DNF document for generating micropublications.",
             "hasPart": [
                 {
@@ -68,7 +68,7 @@
             "license": "https://www.apache.org/licenses/LICENSE-2.0",
             "name": "Stencila",
             "operatingSystem": "all",
-            "softwareVersion": "stencila 2.5.1",
+            "softwareVersion": "stencila 2.6.0",
             "url": "https://github.com/stencila/stencila"
         },
         {
@@ -77,7 +77,7 @@
             "description": "Specification and JSON Schemas used by the Stencila DNF Engine to validate and interpret dynamic documents.",
             "license": "https://www.apache.org/licenses/LICENSE-2.0",
             "name": "Stencila DNF Engine Specification",
-            "url": "https://github.com/stencila/stencila/tree/v2.5.1/schema"
+            "url": "https://github.com/stencila/stencila/tree/v2.6.0/schema"
         },
         {
             "@id": "interface.crate/",

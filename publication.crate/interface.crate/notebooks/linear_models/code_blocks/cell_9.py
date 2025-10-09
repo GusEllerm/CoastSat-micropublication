@@ -12,7 +12,7 @@ def get_trends(f):
         df.dates = pd.to_datetime(df.dates)
     except:
         print(f)
-    if "sar" in f:
+    if "sar" in f or "ber" in f:
         smoothed_filename = f.replace(".csv", "_smoothed.csv")
         try:
             df = pd.read_csv(smoothed_filename)

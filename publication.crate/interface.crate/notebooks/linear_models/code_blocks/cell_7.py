@@ -1,4 +1,4 @@
-f = files[files.str.contains("sar1026")].iloc[0]
+f = files[files.str.contains("ber0001")].iloc[0]
 # despiked_filename = f.replace(".csv", "_tidally_corrected.csv")
 df = pd.read_csv(f)
 df.dates = pd.to_datetime(df.dates)
@@ -6,7 +6,7 @@ df.set_index("dates", inplace=True)
 display(df.columns)
 import matplotlib.pyplot as plt
 
-transect_id = "sar1026-0007"
+transect_id = "ber0001-0002"
 
 
 def custom_mean(window):
