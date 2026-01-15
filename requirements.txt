@@ -1,4 +1,5 @@
 rocrate
+pyyaml
 geopandas
 contextily
 folium

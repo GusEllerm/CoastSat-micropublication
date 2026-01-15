@@ -1,0 +1,49 @@
+{
+  "title": "CoastSat transect micropublication LivePublication",
+  "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "creators": [
+    {
+      "name": "Augustus Ellerm",
+      "orcid": "https://orcid.org/0000-0001-8260-231X"
+    }
+  ],
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "LivePublication",
+    "CoastSat",
+    "micropublication",
+    "transect",
+    "RO-Crate",
+    "reproducibility",
+    "interactive map"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/GusEllerm/CoastSat-micropublication",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.18250478",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.18250232",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.18250033",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/UoA-eResearch/CoastSat",
+      "relation": "isDerivedFrom",
+      "scheme": "url"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "datePublished": "2026-01-15T00:40:45+00:00",
+      "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
+      "creator": {
+        "@id": "https://orcid.org/0000-0001-8260-231X"
+      },
+      "hasPart": [
+        {
+          "@id": "README.md"
+        },
+        {
+          "@id": "LICENSE"
+        },
+        {
+          "@id": "CITATION.cff"
+        },
+        {
+          "@id": "codemeta.json"
+        },
+        {
+          "@id": ".zenodo.json"
+        },
+        {
+          "@id": "requirements.txt"
+        },
+        {
+          "@id": "scripts/generate_ro_crate.py"
+        },
+        {
+          "@id": "scripts/validate_metadata.py"
+        },
+        {
+          "@id": "scripts/publish_to_docs.sh"
+        },
+        {
+          "@id": "scripts/generate_publication.sh"
+        },
+        {
+          "@id": "scripts/create_publication.sh"
+        },
+        {
+          "@id": "src/publication_logic.py"
+        },
+        {
+          "@id": "src/crate_builder.py"
+        },
+        {
+          "@id": "src/templates/micropublication.smd"
+        },
+        {
+          "@id": "micropublication.html"
+        }
+      ],
+      "license": "CC-BY-4.0",
+      "mainEntity": {
+        "@id": "#coastsat-transect-micropublication"
+      },
+      "name": "CoastSat transect micropublication LivePublication",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "https://orcid.org/0000-0001-8260-231X",
+      "@type": "Person",
+      "familyName": "Ellerm",
+      "givenName": "Augustus",
+      "name": "Augustus Ellerm"
+    },
+    {
+      "@id": "#coastsat-transect-micropublication",
+      "@type": "SoftwareSourceCode",
+      "author": {
+        "@id": "https://orcid.org/0000-0001-8260-231X"
+      },
+      "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
+      "license": "CC-BY-4.0",
+      "name": "CoastSat transect micropublication LivePublication",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "README.md",
+      "@type": "File"
+    },
+    {
+      "@id": "LICENSE",
+      "@type": "File"
+    },
+    {
+      "@id": "CITATION.cff",
+      "@type": "File"
+    },
+    {
+      "@id": "codemeta.json",
+      "@type": "File"
+    },
+    {
+      "@id": ".zenodo.json",
+      "@type": "File"
+    },
+    {
+      "@id": "requirements.txt",
+      "@type": "File"
+    },
+    {
+      "@id": "scripts/generate_ro_crate.py",
+      "@type": "File"
+    },
+    {
+      "@id": "scripts/validate_metadata.py",
+      "@type": "File"
+    },
+    {
+      "@id": "scripts/publish_to_docs.sh",
+      "@type": "File"
+    },
+    {
+      "@id": "scripts/generate_publication.sh",
+      "@type": "File"
+    },
+    {
+      "@id": "scripts/create_publication.sh",
+      "@type": "File"
+    },
+    {
+      "@id": "src/publication_logic.py",
+      "@type": "File"
+    },
+    {
+      "@id": "src/crate_builder.py",
+      "@type": "File"
+    },
+    {
+      "@id": "src/templates/micropublication.smd",
+      "@type": "File"
+    },
+    {
+      "@id": "micropublication.html",
+      "@type": "File"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "CoastSat transect micropublication LivePublication"
+message: "If you use this software, please cite it using the metadata below."
+type: software
+authors:
+  - family-names: Ellerm
+    given-names: Augustus
+    orcid: https://orcid.org/0000-0001-8260-231X
+repository-code: https://github.com/GusEllerm/CoastSat-micropublication
+abstract: "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration."
+license: CC-BY-4.0
+version: 1.0.0
+preferred-citation:
+  type: software
+  title: "CoastSat transect micropublication LivePublication"
+  authors:
+    - family-names: Ellerm
+      given-names: Augustus
+      orcid: https://orcid.org/0000-0001-8260-231X
+  url: https://github.com/GusEllerm/CoastSat-micropublication
+  version: 1.0.0
