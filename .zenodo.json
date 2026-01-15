@@ -2,7 +2,7 @@
   "title": "CoastSat transect micropublication LivePublication",
   "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
   "upload_type": "software",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "creators": [
     {
       "name": "Augustus Ellerm",
