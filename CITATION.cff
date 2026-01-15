@@ -9,7 +9,8 @@ authors:
 repository-code: https://github.com/GusEllerm/CoastSat-micropublication
 abstract: "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration."
 license: CC-BY-4.0
-version: 1.0.0
+version: 1.0.1
+doi: 10.5281/zenodo.18250845
 preferred-citation:
   type: software
   title: "CoastSat transect micropublication LivePublication"
@@ -18,4 +19,5 @@ preferred-citation:
       given-names: Augustus
       orcid: https://orcid.org/0000-0001-8260-231X
   url: https://github.com/GusEllerm/CoastSat-micropublication
-  version: 1.0.0
+  version: 1.0.1
+  doi: 10.5281/zenodo.18250845

@@ -1,4 +1,5 @@
-# CoastSat transect micropublication LivePublication
+# CoastSat transect micropublication LivePublication [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18250845.svg)](https://doi.org/10.5281/zenodo.18250845)
+
 
 ## What this is
 
@@ -40,17 +41,8 @@ python src/publication_logic.py nzd0001-0001 --populate-crate
 - Upstream CoastSat baseline repository: https://github.com/UoA-eResearch/CoastSat
 
 ## How to cite
-Zenodo will mint a DOI after the first GitHub Release archival. Until then, cite this repository and the release tag used for the archive. See `CITATION.cff` for the preferred citation metadata.
+
+Use `CITATION.cff`. Zenodo DOI: https://doi.org/10.5281/zenodo.18250845
 
 ## License
 CC BY 4.0 (see `LICENSE`).
-
-## Metadata validation
-```bash
-python scripts/validate_metadata.py
-```
-
-## RO-Crate regeneration
-```bash
-python scripts/generate_ro_crate.py
-```

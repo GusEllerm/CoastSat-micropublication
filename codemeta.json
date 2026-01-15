@@ -5,7 +5,7 @@
   "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
   "codeRepository": "https://github.com/GusEllerm/CoastSat-micropublication",
   "license": "CC-BY-4.0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": [
     {
       "@type": "Person",
@@ -25,5 +25,6 @@
     "RO-Crate",
     "reproducibility",
     "interactive map"
-  ]
+  ],
+  "identifier": "https://doi.org/10.5281/zenodo.18250845"
 }

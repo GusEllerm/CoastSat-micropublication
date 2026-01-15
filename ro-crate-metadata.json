@@ -6,6 +6,7 @@
       "@type": "Dataset",
       "datePublished": "2026-01-15T00:40:45+00:00",
       "description": "LivePublication system that generates per-transect CoastSat micropublications and RO-Crate packages to support interactive map and dashboard integration.",
+      "identifier": "https://doi.org/10.5281/zenodo.18250845",
       "creator": {
         "@id": "https://orcid.org/0000-0001-8260-231X"
       },
